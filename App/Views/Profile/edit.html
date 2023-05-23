@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block footer %}
+
+<script src="/js/hideShowPassword.min.js"></script>
+<script src="/js/app/js"></script>
+
+<script>
+
+  $(document).ready(function () {
+
+    var userId = '{{ user.id }}';
+
+    /**
+     * Validate the form
+     */
+    $('#formProfile').validate({
+      rules: {
+        name: 'required',
+        email: {
+          required: true,
+          email: true,
+          remote: {
+            url: 'account/validate-email',
+            data: {
+              ignore_id: function () {
+                return userId;
+              }
+            }
+          }
+        },
+        password: {
+          minlength: 6,
+          validPassword: true
+        }
+      },
+      messages: {
+        email: {
+          remote: 'email jest już zajęty'
+
+        }
+      }
+    });
+
+    /**
+     * 
+     * Show password toggle button
+     * 
+     * 
+     * */
+
+    $('inputPassword').hideShowPassword({
+      show: false,
+      innerToggle: 'focus'
+    });
+  });
+</script>
+
+{% endblock %}
+
+{% block body %}
+
+<h1>Profil</h1>
+
+{% if user.errors is not empty %}
+<p>Errors:</p>
+<ul>
+  {% for error in user.errors %}
+  <li>{{ error }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+<form method="post" id="formProfile" action="/profile/update">
+
+  <div>
+    <label for="inputName">Imię</label>
+    <input id="inputName" name="name" placeholder="imię" value="{{ user.name }}" required />
+  </div>
+
+  <div>
+    <label for="inputEmail">Adres email</label>
+    <input id="inputEmail" name="email" placeholder="email" value="{{ user.email }}" required type="email" />
+  </div>
+
+  <div>
+    <label for="inputPassword">Hasło</label>
+    <input type="password" id="inputPassword" name="password" placeholder="hasło" 
+    aria-describedby="helpBlock"/>
+    <span id="helpBlock"> Pozostaw puste, aby zachować aktualne hasło</span>
+  </div>
+
+
+
+  <button type="submit">Zapisz zmiany</button>
+  <a href="'profile/show">Anuluj</a>
+
+</form>
+
+{% endblock %}

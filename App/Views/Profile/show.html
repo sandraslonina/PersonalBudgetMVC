@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+
+<h1>Profil</h1>
+
+<dl>
+   <dt>Imię</dt>
+    <dd>{{ user.name }}</dd>
+    <dt>Adres email</dt>
+    <dd>{{ user.email }}</dd>
+</dl>
+
+<a href="/profile/edit">Edycja</a>
+{% endblock %}

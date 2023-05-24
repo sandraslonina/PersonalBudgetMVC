@@ -75,26 +75,26 @@
 
 <form method="post" id="formProfile" action="/profile/update">
 
-  <div>
+  <div class="form-group">
     <label for="inputName">Imię</label>
-    <input id="inputName" name="name" placeholder="imię" value="{{ user.name }}" required />
+    <input id="inputName" name="name" placeholder="imię" value="{{ user.name }}" required class="form-control" />
   </div>
 
-  <div>
+  <div class="form-group">
     <label for="inputEmail">Adres email</label>
-    <input id="inputEmail" name="email" placeholder="email" value="{{ user.email }}" required type="email" />
+    <input id="inputEmail" name="email" placeholder="email" value="{{ user.email }}" required type="email" class="form-control" />
   </div>
 
-  <div>
+  <div class="form-group">
     <label for="inputPassword">Hasło</label>
     <input type="password" id="inputPassword" name="password" placeholder="hasło" 
-    aria-describedby="helpBlock"/>
-    <span id="helpBlock"> Pozostaw puste, aby zachować aktualne hasło</span>
+    aria-describedby="helpBlock" class="form-control"/>
+    <span id="helpBlock" class="help-block"> Pozostaw puste, aby zachować aktualne hasło</span>
   </div>
 
 
 
-  <button type="submit">Zapisz zmiany</button>
+  <button type="submit" class="btn btn-default">Zapisz zmiany</button>
   <a href="'profile/show">Anuluj</a>
 
 </form>

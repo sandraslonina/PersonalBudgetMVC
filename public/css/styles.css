@@ -1,10 +1,11 @@
 body {
-  margin-top: 3em;
+  margin-bottom: 0px;
 }
 
 .alert {
-  border: 1px solid #ccc;
-  padding: 6px;
+
+  padding: 10px;
+  margin-top: 2em;
 }
 
 /* .alert-info {
@@ -18,3 +19,190 @@ body {
 .alert-warning {
   background-color: red;
 } */
+
+/* Heading */
+
+.mainLine {
+  padding: 2% 10%;
+  background-color: #913175;
+  margin: 0px;
+}
+
+.header {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  color: #E9E8E8;
+  text-align: center;
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+}
+
+/* Introduction */
+
+.introduction-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3rem;
+  line-height: 1.5;
+  text-align: center;
+  padding: 3% 5%;
+}
+
+.introduction-text-helpful {
+  font-family: 'Montserrat', sans-serif;
+  text-align: right;
+  font-size: 1.5rem;
+}
+
+/* Title */
+
+#title {
+  margin-top: 3em;;
+  text-align: left;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.title-text {
+  line-height: 1.5;
+  font-size: 2rem;
+}
+
+
+.title-image {
+  width: 40%;
+}
+
+
+.signButton {
+  margin: 5% 3% 5% 0;
+}
+
+
+/* Footer */
+
+.bottom-container {
+  background-color: #3C4048;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  color: #EAF6F6;
+  padding: 1%;
+
+}
+
+.footer-link {
+  color: #EAF6F6;
+  text-decoration: none;
+  margin: 2%;
+}
+
+.copyright {
+  font-size: 1rem;
+  padding: 8px 0;
+}
+
+
+/* Sign In */
+
+.user-image {
+  margin-top: 20px;
+  width: 10%;
+}
+
+/* Sign Up */
+
+.customer-image {
+  margin-top: 20px;
+  width: 10%;
+}
+
+.container {
+  color: #E9E8E8;
+  font-family: 'Montserrat', sans-serif;
+  padding: 3% 15% 5%;
+}
+
+.text-container {
+  margin-bottom: 50px;
+}
+
+.mb-3 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+}
+
+/* Menu */
+
+#menu {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+}
+
+
+.menu-bottom {
+  background-color: #20262E;
+  color: #E9E8E8;
+  text-align: center;
+  padding: 3% 15% 5%;
+}
+
+/* Income */
+
+.budget-image {
+  width: 30%;
+  margin-top: 30px;
+}
+
+
+.text-menu {
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1.5;
+}
+
+.income-image {
+  width: 15%;
+  margin-top: 10px;
+}
+
+
+/* Balance */
+
+#balance {
+  text-align: center;
+}
+
+.routine-image {
+  width: 15%;
+  margin-top: 20px;
+}
+
+
+.balance-top {
+  background-color: #20262E;
+  color: #E9E8E8;
+  text-align: center;
+  padding: 3% 15% 5%;
+}
+
+.incomes-text {
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1.5;
+  color: green;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.expence-text {
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1.5;
+  color: red;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.balance-text {
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1.5;
+  color: yellow;
+  text-align: center;
+  font-size: 2rem;
+}

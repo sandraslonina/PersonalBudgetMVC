@@ -4,14 +4,18 @@
 
 {% block body %}
 
-<h1>Profil</h1>
+<div class="text-center mt-5">
+    <h1 class="text-container">Profil</h1>
+</div>
 
 <dl class="row">
-   <dt class="col-sm-3">Imię</dt>
+    <dt class="col-sm-3 text-uppercase ">Imię</dt>
     <dd class="col-sm-9">{{ user.name }}</dd>
-    <dt class="col-sm-3">Adres email</dt>
+    <dt class="col-sm-3 text-uppercase">Adres email</dt>
     <dd class="col-sm-9">{{ user.email }}</dd>
 </dl>
 
-<a href="/profile/edit">Edycja</a>
+<a class="btn btn-outline-warning btn-lg signButton" href="/profile/edit" role="button"><i class="fas fa-edit"></i>
+    Edycja</a>
+
 {% endblock %}

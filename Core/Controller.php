@@ -102,16 +102,13 @@ use \App\Flash;
     {
         if (! Auth::getUser()) {
 
-            Flash::addMessage('Please login to access that page' , Flash::INFO);
+            Flash::addMessage('Zaloguj się, aby uzyskać dostęp do tej strony.' , Flash::INFO);
 
             Auth::rememberRequestedPage();
 
             $this->redirect('/login');
         }
     }
-
-
-
 
 }
 

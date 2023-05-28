@@ -11,10 +11,8 @@ use \App\Models\User;
  * PHP version 7.0
  */
 
-
 class Signup extends \Core\Controller
 {
-
     /**
      * Show the signup page
      *
@@ -52,15 +50,12 @@ class Signup extends \Core\Controller
      * Show the signup success page
      * 
      * @return void
-     * 
      */
-
     public function successAction()
     {
         View::renderTemplate('Signup/success.html');
 
     }
-
 
     /**
      * Activate a new account
@@ -73,7 +68,6 @@ class Signup extends \Core\Controller
 
         $this->redirect('/signup/activated');
     }
-
 
     /**
      * Show the activation success page

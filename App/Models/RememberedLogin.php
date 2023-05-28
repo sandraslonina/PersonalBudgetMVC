@@ -10,13 +10,12 @@ use \App\Token;
  *
  * PHP version 7.0
  */
+
 class RememberedLogin extends \Core\Model
 {
-
   public $token_hash;
   public $expires_at;
   public $user_id;
-
 
   /**
    * Find a remembered login model by the token
@@ -54,7 +53,6 @@ class RememberedLogin extends \Core\Model
     return User::findByID($this->user_id);
   }
 
-
   /**
    * See if the remember token has expired or not, based on the current system time
    *
@@ -68,7 +66,6 @@ class RememberedLogin extends \Core\Model
   /**
    * Delete this model
    * 
-   * 
    * @return void
    */
   public function delete()
@@ -78,11 +75,8 @@ class RememberedLogin extends \Core\Model
 
     $db = static::getDB();
     $stmt = $db->prepare($sql);
-    $stmt->bindValue('token_hash' , $this->token_hash, PDO::PARAM_STR);
+    $stmt->bindValue('token_hash', $this->token_hash, PDO::PARAM_STR);
 
     $stmt->execute();
   }
-
-
-
 }

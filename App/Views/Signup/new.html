@@ -53,12 +53,17 @@
 
 {% block body %}
 
+<!-- Image -->
+<div class="customer">
+  <div style="text-align: center"><img class="customer-image" src="/images/customerx.png" alt="customer-img">
+  </div>
+</div>
+
 <!-- Name -->
 <section id="signUp">
   <div class="text-center mt-5">
     <h1 class="text-container">Rejestracja</h1>
   </div>
-
 
   {% if user.errors is not empty %}
   <p>Errors:</p>
@@ -69,16 +74,8 @@
   </ul>
   {% endif %}
 
-
-  <!-- Sign Up -->
   <div class="p-3 mb-0">
-
-    <div class="customer">
-      <div style="text-align: center"><img class="customer-image" src="/images/customer.png" alt="customer-img">
-      </div>
-    </div>
-
-
+    
     <div class="row">
 
       <div class="col-12 offset-lg-2 col-lg-8 text-center">
@@ -110,7 +107,6 @@
   </div>
 
 </section>
-
 
 </form>
 

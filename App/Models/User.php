@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-
 use PDO;
 use \App\Token;
 use \App\Mail;
 use \Core\View;
-
-
 
 /**
  * User model
@@ -18,7 +15,6 @@ use \Core\View;
 
 class User extends \Core\Model
 {
-
   public $name;
   public $email;
   public $password;
@@ -31,23 +27,16 @@ class User extends \Core\Model
   public $password_reset_hash;
   public $password_reset_expires_at;
   public $password_reset_token;
-
   public $activation_token;
-
   public $activation_hash;
-
   public $is_active;
-
 
   /**
    * Error messages
    * 
    * @var array
    */
-
   public $errors = [];
-
-
 
   /**
    * Class constructor
@@ -79,7 +68,7 @@ class User extends \Core\Model
 
       $token = new Token();
       $hashed_token = $token->getHash();
-      $this->activation_token = $token->getValue();   
+      $this->activation_token = $token->getValue();
 
       $sql = 'INSERT INTO users (name, email, password_hash, activation_hash)
             VALUES (:name, :email, :password_hash, :activation_hash)';
@@ -122,19 +111,18 @@ class User extends \Core\Model
 
 
     // Password
-    if (isset($this->password))
-    {
-    if (strlen($this->password) < 6) {
-      $this->errors[] = 'Wprowadź hasło składające się z co najmniej 6 znaków';
-    }
-    if (preg_match('/.*[a-z]+.*/i', $this->password) == 0) {
-      $this->errors[] = 'Hasło musi zawierać przynajmniej jedną dużą literę';
-    }
+    if (isset($this->password)) {
+      if (strlen($this->password) < 6) {
+        $this->errors[] = 'Wprowadź hasło składające się z co najmniej 6 znaków';
+      }
+      if (preg_match('/.*[a-z]+.*/i', $this->password) == 0) {
+        $this->errors[] = 'Hasło musi zawierać przynajmniej jedną dużą literę';
+      }
 
-    if (preg_match('/.*\d+.*/i', $this->password) == 0) {
-      $this->errors[] = 'Hasło musi zawierać co najmniej jedną cyfrę.';
+      if (preg_match('/.*\d+.*/i', $this->password) == 0) {
+        $this->errors[] = 'Hasło musi zawierać co najmniej jedną cyfrę.';
+      }
     }
-  }
   }
 
   /**
@@ -148,10 +136,8 @@ class User extends \Core\Model
   {
     $user = static::findByEmail($email);
 
-    if ($user)
-    {
-      if ($user->id != $ignore_id)
-      {
+    if ($user) {
+      if ($user->id != $ignore_id) {
         return true;
       }
     }
@@ -197,7 +183,6 @@ class User extends \Core\Model
         return $user;
       }
     }
-
     return false;
   }
 
@@ -264,14 +249,12 @@ class User extends \Core\Model
     if ($user) {
       //Start password reset proces here
 
-      if ($user->startPasswordReset())
-      {
+      if ($user->startPasswordReset()) {
         $user->sendPasswordResetEmail();
       }
-     
-  }
-}
 
+    }
+  }
 
   /**
    * Start the password reset proces by genarating a new token  and expire
@@ -301,192 +284,177 @@ class User extends \Core\Model
     return $stmt->execute();
   }
 
-
   /**
    * Send password reset instructions in an emaail to user
    * 
    * @return void
    */
-protected function sendPasswordResetEmail()
-{
-  $url ='http://' . $_SERVER['HTTP_HOST'] . '/password/reset/' . $this->password_reset_token;
+  protected function sendPasswordResetEmail()
+  {
+    $url = 'http://' . $_SERVER['HTTP_HOST'] . '/password/reset/' . $this->password_reset_token;
 
-  $text = View::getTemplate('Password/reset_email.txt', ['url' => $url]);
-  $html = View::getTemplate('Password/reset_email.html' , ['url' => $url]);
+    $text = View::getTemplate('Password/reset_email.txt', ['url' => $url]);
+    $html = View::getTemplate('Password/reset_email.html', ['url' => $url]);
 
-  Mail::send($this->email, 'Przywracenie hasła', $text, $html);
-}
-
+    Mail::send($this->email, 'Resetowanie hasła', $text, $html);
+  }
 
   /**
-     * Find a user model by password reset token and expiry
-     *
-     * @param string $token Password reset token sent to user
-     *
-     * @return mixed User object if found and the token hasn't expired, null otherwise
-     */
-    public static function findByPasswordReset($token)
-    {
-        $token = new Token($token);
-        $hashed_token = $token->getHash();
+   * Find a user model by password reset token and expiry
+   *
+   * @param string $token Password reset token sent to user
+   *
+   * @return mixed User object if found and the token hasn't expired, null otherwise
+   */
+  public static function findByPasswordReset($token)
+  {
+    $token = new Token($token);
+    $hashed_token = $token->getHash();
 
-        $sql = 'SELECT * FROM users
+    $sql = 'SELECT * FROM users
                 WHERE password_reset_hash = :token_hash';
 
-        $db = static::getDB();
-        $stmt = $db->prepare($sql);
+    $db = static::getDB();
+    $stmt = $db->prepare($sql);
 
-        $stmt->bindValue(':token_hash', $hashed_token, PDO::PARAM_STR);
+    $stmt->bindValue(':token_hash', $hashed_token, PDO::PARAM_STR);
 
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+    $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
 
-        $stmt->execute();
+    $stmt->execute();
 
-        $user = $stmt->fetch();
+    $user = $stmt->fetch();
 
-        if ($user) {
+    if ($user) {
 
-            // Check password reset token hasn't expired
-            if (strtotime($user->password_reset_expires_at) > time()) {
+      // Check password reset token hasn't expired
+      if (strtotime($user->password_reset_expires_at) > time()) {
 
-                return $user;
-
-            }
-        }
+        return $user;
+      }
     }
+  }
 
-    
-    /*** Reset the password
-    *
-    * @param string $password The new password
-    *
-    * @return boolean  True if the password was updated successfully, false otherwise
-    */
-   public function resetPassword($password)
-   {
-       $this->password = $password;
+  /*** Reset the password
+   *
+   * @param string $password The new password
+   *
+   * @return boolean  True if the password was updated successfully, false otherwise
+   */
+  public function resetPassword($password)
+  {
+    $this->password = $password;
 
-       $this->validate();
+    $this->validate();
 
-       if (empty($this->errors)) {
+    if (empty($this->errors)) {
 
-           $password = password_hash($this->password, PASSWORD_DEFAULT);
+      $password = password_hash($this->password, PASSWORD_DEFAULT);
 
-           $sql = 'UPDATE users
+      $sql = 'UPDATE users
                    SET password_hash = :password_hash,
                        password_reset_hash = NULL,
                        password_reset_expires_at = NULL
                    WHERE id = :id';
 
-           $db = static::getDB();
-           $stmt = $db->prepare($sql);
+      $db = static::getDB();
+      $stmt = $db->prepare($sql);
 
-           $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
-           $stmt->bindValue(':password_hash', $password, PDO::PARAM_STR);
+      $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+      $stmt->bindValue(':password_hash', $password, PDO::PARAM_STR);
 
-           return $stmt->execute();
-       }
-
-       return false;
-   }
-
+      return $stmt->execute();
+    }
+    return false;
+  }
 
   /**
-     * Send an email to the user containing the activation link
-     *
-     * @return void
-     */
-    public function sendActivationEmail()
-    {
-        $url = 'http://' . $_SERVER['HTTP_HOST'] . '/signup/activate/' . $this->activation_token;
+   * Send an email to the user containing the activation link
+   *
+   * @return void
+   */
+  public function sendActivationEmail()
+  {
+    $url = 'http://' . $_SERVER['HTTP_HOST'] . '/signup/activate/' . $this->activation_token;
 
-        $text = View::getTemplate('Signup/activation_email.txt', ['url' => $url]);
-        $html = View::getTemplate('Signup/activation_email.html', ['url' => $url]);
+    $text = View::getTemplate('Signup/activation_email.txt', ['url' => $url]);
+    $html = View::getTemplate('Signup/activation_email.html', ['url' => $url]);
 
-        Mail::send($this->email, 'Aktywacja konta', $text, $html);
-    }
+    Mail::send($this->email, 'Aktywacja konta', $text, $html);
+  }
 
+  /**
+   * Activate the user account with the specified activation token
+   *
+   * @param string $value Activation token from the URL
+   *
+   * @return void
+   */
+  public static function activate($value)
+  {
+    $token = new Token($value);
+    $hashed_token = $token->getHash();
 
-    /**
-     * Activate the user account with the specified activation token
-     *
-     * @param string $value Activation token from the URL
-     *
-     * @return void
-     */
-    public static function activate($value)
-    {
-        $token = new Token($value);
-        $hashed_token = $token->getHash();
-
-        $sql = 'UPDATE users
+    $sql = 'UPDATE users
                 SET is_active = 1,
                     activation_hash = null
                 WHERE activation_hash = :hashed_token';
 
-        $db = static::getDB();
-        $stmt = $db->prepare($sql);
+    $db = static::getDB();
+    $stmt = $db->prepare($sql);
 
-        $stmt->bindValue(':hashed_token', $hashed_token, PDO::PARAM_STR);
+    $stmt->bindValue(':hashed_token', $hashed_token, PDO::PARAM_STR);
 
-        $stmt->execute();                
+    $stmt->execute();
+  }
+
+  /**
+   * Update the user's profile
+   *
+   * @param array $data Data from the edit profile form
+   *
+   * @return boolean  True if the data was updated, false otherwise
+   */
+  public function updateProfile($data)
+  {
+    $this->name = $data['name'];
+    $this->email = $data['email'];
+
+    // Only validate and update the password if a value provided
+    if ($data['password'] != '') {
+      $this->password = $data['password'];
     }
 
- /**
-     * Update the user's profile
-     *
-     * @param array $data Data from the edit profile form
-     *
-     * @return boolean  True if the data was updated, false otherwise
-     */
-    public function updateProfile($data)
-    {
-        $this->name = $data['name'];
-        $this->email = $data['email'];
+    $this->validate();
 
-        // Only validate and update the password if a value provided
-        if ($data['password'] != '') {
-            $this->password = $data['password'];
-        }
+    if (empty($this->errors)) {
 
-        $this->validate();
-
-        if (empty($this->errors)) {
-
-            $sql = 'UPDATE users
+      $sql = 'UPDATE users
                     SET name = :name,
                         email = :email';
 
-            // Add password if it's set
-            if (isset($this->password)) {
-                $sql .= ', password_hash = :password_hash';
-            }
+      // Add password if it's set
+      if (isset($this->password)) {
+        $sql .= ', password_hash = :password_hash';
+      }
 
-            $sql .= "\nWHERE id = :id";
+      $sql .= "\nWHERE id = :id";
 
-            $db = static::getDB();
-            $stmt = $db->prepare($sql);
+      $db = static::getDB();
+      $stmt = $db->prepare($sql);
 
-            $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
-            $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
-            $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+      $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
+      $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
+      $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
 
-            // Add password if it's set
-            if (isset($this->password)) {
-                $password_hash = password_hash($this->password, PASSWORD_DEFAULT);
-                $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
-            }
+      // Add password if it's set
+      if (isset($this->password)) {
+        $password_hash = password_hash($this->password, PASSWORD_DEFAULT);
+        $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
+      }
 
-            return $stmt->execute();
-        }
-
-        return false;
+      return $stmt->execute();
     }
-
-
-
-
-
-
-
+    return false;
+  }
 }

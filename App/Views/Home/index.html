@@ -2,49 +2,51 @@
 
 {% block title %}Strona startowa{% endblock %}
 
-
 {% block body %}
 
-    <h1 class="text-container text-center mt-5 text-warning">Witaj!</h1>
+<h1 class="text-container text-center mt-5 text-warning">Witaj!</h1>
 
-    {% if current_user %}
+{% if current_user %}
+
+<!-- Image -->
+<div class="choice">
+  <div style="text-align: center">
+    <img class="choice-image" src="/images/choice.png" alt="choice-img">
+  </div>
+</div>
 
 <h2 class="text-container text-center">Cześć {{ current_user.name}}!</h2>
 <h3 class="text-container text-center">Wybierz opcję z menu głównego</h3>
-  
-
 
 {% else %}
 
 <!-- Introduction -->
 <section id="introduction">
 
-    <h2 class="introduction-text">Kto ma kontrolę nad pieniędzmi, ten ma władzę nad światem</h2>
-    <h3 class="introduction-text-helpful"><i class="fa-solid fa-person"></i> Henry Kissinger</h3>
+  <h2 class="introduction-text">Kto ma kontrolę nad pieniędzmi, ten ma władzę nad światem</h2>
+  <h3 class="introduction-text-helpful"><i class="fa-solid fa-person"></i> Henry Kissinger</h3>
 
-  </section> 
+</section>
 
 <!-- Title -->
 <section id="title">
-    <div class="row">
-      <div class="col-lg-6">
-        <h1 class="title-text">Zacznij zarządzać swoim budżetem już dziś! Dołącz do grona zadowolonych użytkowników!
-        </h1>
-      </div>
-
-      <div class="col-lg-6">
-        <img class="title-image" src="images/save-money.png" alt="savemoney-img">
-      </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <h1 class="title-text">Zacznij zarządzać swoim budżetem już dziś! Dołącz do grona zadowolonych użytkowników!
+      </h1>
     </div>
-  </section>
 
+    <div class="col-lg-6">
+      <img class="title-image" src="images/save-money.png" alt="savemoney-img">
+    </div>
+  </div>
+</section>
 
 <a class="btn btn-outline-primary btn-lg signButton" href="/signup/new" role="button">
-    <i class="fa-solid fa-user-plus"></i> Rejestracja</a> 
-     <a class="btn btn-outline-success btn-lg signButton" href="/login" role="button">
-    <i class="fa-solid fa-right-to-bracket"></i> Logowanie</a>
+  <i class="fa-solid fa-user-plus"></i> Rejestracja</a>
+<a class="btn btn-outline-success btn-lg signButton" href="/login" role="button">
+  <i class="fa-solid fa-right-to-bracket"></i> Logowanie</a>
 {% endif %}
 
 
 {% endblock %}
-

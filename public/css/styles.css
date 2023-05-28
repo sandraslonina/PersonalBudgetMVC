@@ -69,7 +69,8 @@ body {
 
 
 .title-image {
-  width: 40%;
+  width: 70%;
+  
 }
 
 
@@ -101,19 +102,73 @@ body {
 }
 
 
-/* Sign In */
+/* Login In */
 
 .user-image {
   margin-top: 20px;
-  width: 10%;
+  width: 30%;
+
 }
 
 /* Sign Up */
 
 .customer-image {
   margin-top: 20px;
-  width: 10%;
+  width: 30%;
 }
+
+/* Edit */
+
+.pencil-image {
+  margin-top: 20px;
+  width: 20%;
+}
+
+/* Send */
+
+.send-image {
+  margin-top: 20px;
+  width: 20%;
+}
+
+/* Send */
+.prize-image {
+  margin-top: 20px;
+  width: 20%;
+}
+
+/* Forgor mail */
+.forgot-image {
+  margin-top: 20px;
+  width: 20%;
+}
+
+/* Send */
+.choice-image {
+  margin-top: 5px;
+  width: 20%;
+  margin-bottom: 20px;
+}
+
+/* Email */
+.email-image {
+  margin-top: 20px;
+  width: 15%;
+}
+
+/* Reser password */
+.password-image {
+  margin-top: 20px;
+  width: 20%;
+}
+
+/* Profile */
+.profile-image {
+  margin-top: 20px;
+  width: 20%;
+}
+
+
 
 .container {
   color: #E9E8E8;
@@ -205,4 +260,9 @@ body {
   color: yellow;
   text-align: center;
   font-size: 2rem;
+}
+
+.navbar {
+  height: 80px;
+  font-size: 1.2rem;
 }

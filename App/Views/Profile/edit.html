@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Profile{% endblock %}
+{% block title %}Profil{% endblock %}
 
 {% block footer %}
 
@@ -62,13 +62,17 @@
 
 {% block body %}
 
+<!-- Image -->
+<div class="edit">
+  <div style="text-align: center"><img class="pencil-image" src="/images/pencil.png" alt="pencil-img">
+  </div>
+</div>
 
 <!-- Name -->
 <section id="profile">
   <div class="text-center mt-5">
-    <h1 class="text-container">Profil</h1>
+    <h1 class="text-container">Edytuj dane</h1>
   </div>
-
 
   {% if user.errors is not empty %}
   <p>Errors:</p>
@@ -82,39 +86,32 @@
   <!-- Sign Up -->
   <div class="p-3 mb-0">
 
-    <div class="customer">
-      <div style="text-align: center"><img class="customer-image" src="/images/customer.png" alt="customer-img">
-      </div>
-    </div>
-
-
       <div class="col-12 offset-lg-2 col-lg-8 text-center">
 
         <form method="post" id="formProfile" action="/profile/update">
 
           <div class="form-group mb-3">
             <label for="inputName"><i class="fa-regular fa-user"></i> Imię</label>
-            <input id="inputName" name="name" placeholder="imię" value="{{ user.name }}" required
+            <input id="inputName" name="name" placeholder="Imię" value="{{ user.name }}" required
               class="form-control" />
           </div>
 
           <div class="form-group mb-3">
             <label for="inputEmail"><i class="fa-regular fa-envelope"></i> Adres email</label>
-            <input id="inputEmail" name="email" placeholder="email" value="{{ user.email }}" required type="email"
+            <input id="inputEmail" name="email" placeholder="Email" value="{{ user.email }}" required type="email"
               class="form-control" />
           </div>
 
           <div class="form-group mb-3">
             <label for="inputPassword"><i class="fa-sharp fa-solid fa-key"></i> Hasło</label>
-            <input type="password" id="inputPassword" name="password" placeholder="hasło" aria-describedby="helpBlock"
+            <input type="password" id="inputPassword" name="password" placeholder="Hasło" aria-describedby="helpBlock"
               class="form-control" />
             <span id="helpBlock" class="help-block"> Pozostaw puste, aby zachować aktualne hasło</span>
           </div>
 
           <button type="submit" class="btn btn-outline-info btn-lg signButton"><i class="fas fa-save"></i> Zapisz
             zmiany</button>
-          <a class="btn btn-outline-warning btn-lg signButton" href="'profile/show" role="button"><i
-              class="far fa-times"></i> Anuluj</a>
+          <a class="btn btn-outline-warning btn-lg signButton" href="/profile/show" role="button"><i class="fa-solid fa-ban"></i> Anuluj</a> 
 
         </form>
       </div>

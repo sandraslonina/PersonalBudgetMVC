@@ -14,7 +14,7 @@ use \App\Flash;
 class Profile extends Authenticated
 {
 
-  public $user;
+    public $user;
 
     /**
      * Before filter - called before each action method

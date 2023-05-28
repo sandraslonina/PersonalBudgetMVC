@@ -73,9 +73,7 @@ const WARNING = 'warning';
 
       unset($_SESSION['flash_notificatations']);
 
-
       return $messages;
     }
   }
-
 }

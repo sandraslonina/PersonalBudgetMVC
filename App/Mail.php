@@ -7,14 +7,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-
-
-
 require '../vendor/phpmailer/src/Exception.php';
 require '../vendor/phpmailer/src/PHPMailer.php';
 require '../vendor/phpmailer/src/SMTP.php';
-
-
 
 class Mail
 {
@@ -41,10 +36,10 @@ class Mail
                         
         
         $mail->SMTPSecure = 'ssl';  
-        $mail->Host = 'smtp.gmail.com';
+        $mail->Host = Config::SMTP_HOST;
         $mail->SMTPAuth   = true; 
-        $mail->Username = 'sandra.example95@gmail.com';
-        $mail->Password = Config::PASS;      
+        $mail->Username = Config::SMTP_USER;
+        $mail->Password = Config::SMTP_PASS;      
         $mail->Port = 465;                       
         
         $mail->CharSet  = 'UTF-8';
@@ -52,7 +47,7 @@ class Mail
         $mail->addAddress($to);
        
 
-        $mail->Subject = 'Aktywacja konta';
+        $mail->Subject = $subject;
         $mail->Body    = $html;
         $mail->AltBody = $text;
        

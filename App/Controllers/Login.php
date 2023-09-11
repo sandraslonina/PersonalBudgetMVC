@@ -7,82 +7,76 @@ use \App\Models\User;
 use \App\Auth;
 use \App\Flash;
 
+#[\AllowDynamicProperties]
 /**
- * Login controller
- *
- * PHP version 7.0
+ * Summary of Login
  */
 class Login extends \Core\Controller
 {
-  /**
-   * Show the login page
-   *
-   * @return void
-   */
-  public function newAction()
-  {
-    View::renderTemplate('Login/new.html');
-  }
 
-
-  /**
-   * Log in a user
-   *
-   * @return void
-   */
-  public function createAction()
-  {
-    $user = User::authenticate($_POST['email'], $_POST['password']);
-
-    $remember_me = isset($_POST['remember_me']);
-
-
-    if ($user) {
-
-      Auth::login($user, $remember_me);
-
-   
-      // Remember the login here 
-
-      Flash::addMessage('Udało się zalogować!');
-
-      $this->redirect(Auth::getReturnToPage());
-
-    } else {
-
-      Flash::addMessage('Logowanie nieudane. Spróbuj jeszcze raz!', fLASH::WARNING);
-
-      View::renderTemplate('Login/new.html', [
-        'email' => $_POST['email'],
-        'remember_me' => $remember_me
-      ]);
+    /**
+     * Summary of newAction
+     * @return void
+     */
+    public function newAction()
+    {
+        if (!isset($_SESSION['user_id']))
+            View::renderTemplate('Login/new.html');
+        else
+            View::renderTemplate('Home/index.html');
     }
-  }
 
-  /**
-   * Log out a user
-   *
-   * @return void
-   */
-  public function destroyAction()
-  {
-    Auth::logout();
+    /**
+     * Summary of createAction
+     * @return void
+     */
+    public function createAction()
+    {
+        $user = User::authenticate($_POST['email'], $_POST['password']);
 
-    $this->redirect('/login/show-logout-message');
-  }
+        $remember_me = isset($_POST['remember_me']);
 
-  /**
-   * Show a "logged out" flash message and redirect to the homepage. Necessary to use the flash messages
-   * as they use the session and at the end of the logout method (destroyAction) the session is destroyed
-   * so a new action needs to be called in order to use the session.
-   *
-   * @return void
-   */
-  public function showLogoutMessageAction()
-  {
-    Flash::addMessage('Zostałeś wylogowany!');
+        if ($user) {
 
-    $this->redirect('/');
-  }
+            Auth::login($user, $remember_me);
 
+            Flash::addMessage('Logowanie zakończone sukcesem');
+
+            $this->redirect(Auth::getReturnToPage());
+
+        } else {
+            Flash::addMessage('Logowanie nie powiodło się, spróbuj ponownie', Flash::WARNING);
+
+            View::renderTemplate('Login/new.html', [
+                'email' => $_POST['email'],
+                'remember_me' => $remember_me
+            ]);
+        }
+    }
+
+    /**
+     * Summary of destroyAction
+     * @return void
+     */
+    public function destroyAction()
+    {
+        Auth::logout();
+
+        $this->redirect('/login/show-logout-message');
+    }
+
+
+    /**
+     * Show a "logged out" flash message and redirect to the homepage. Necessary to use the flash messages
+     * as they use the session and at the end of the logout method (destroyAction) the session is destroyed
+     * so a new action needs to be called in order to use the session.
+     *
+     * @return void
+     */
+    public function showLogoutMessageAction()
+    {
+        Flash::addMessage('Wylogowano');
+
+        $this->redirect('/');
+    }
 }

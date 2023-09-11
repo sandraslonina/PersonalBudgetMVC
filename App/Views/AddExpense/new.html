@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block title %}Dodaj wydatek{% endblock %}
+
+{% block footer %}
+<script src="/js/limit.js"></script>
+<script>
+
+    
+
+    $.validator.addMethod('validTextField',
+            function(value, element, param) {
+
+                if (value != '') {
+
+                    if (value.match(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ0-9+_ -.,]*$/)) {
+                        if(value.length < 50)
+                            return true;
+                        else 
+                            return false;
+                    }
+                    
+                }
+                else return true;
+
+                return false;
+            },
+            'To pole może składać się tylko z liter, cyfr, plusów, minusów oraz spacji i mniejsze niż 50 znaków'
+    ); 
+
+    $(document).ready(function() {
+
+        $('#formAddExpense').validate({
+            errorPlacement: function(error, element) {
+            error.appendTo( element.parent().next() );
+            },
+
+            rules: {
+                amount: {
+                    required: true,
+                    min: 0,
+                    max: 10000000,
+                },
+                date: {
+                    required: true,
+                },
+                category: {
+                    required: true,
+                    validTextField: true,
+                    
+                },
+                comment: {
+                    validTextField: true
+                    
+                },
+                paymentMethod: {
+                    required: true,
+                    validTextField: true,
+                    
+                }
+            },
+            messages: {
+                amount: {
+                    required:  'Wprowadź kwotę',
+                    min: 'Kwota nie może być ujemna',
+                    max: 'Kwota nie może być większa od 10 000 000zł',
+                },
+                date: {
+                    required: 'Wprowadź datę',
+                },
+                category: {
+                    required: 'Kategoria jest wymagana',
+                },
+                paymentMethod: {
+                    required: 'Sposób płatności jest wymagany',
+                    
+                }
+
+            },
+            submitHandler: function(form) {
+            form.submit();
+            }
+
+        });
+                    
+    });
+
+</script>
+
+
+{% endblock %}
+
+{% block body %}
+
+{% if current_user %}
+
+<main>
+		
+    <article>
+
+
+        <div class="container p-3 pb-5 mb-5" style="font-family: 'Montserrat', sans-serif;">
+
+
+            <div class="col-15 border border-warning rounded p-3 ">
+
+
+                <header class="h3 text-center mb-3" style="letter-spacing: 2px; color: 	#FFA500;">
+                    Dodaj wydatek
+                </header>
+
+
+                <!-- Image -->
+                <div class="mt-4 mb-4" style="text-align: center;">
+                    <img src="/image/reduce.png" alt="reduce-img" width="15%">
+                </div>
+
+
+
+                <form method="post" action="/addExpense/create" id="formAddExpense">
+
+
+                    <div class="row m-0 m-lg-3 pb-1">
+                        <div class="col-12 col-lg-6">
+                            <div class="input-group mb-3">
+
+                                <span class="input-group-text col-5 inputx"><i class="fa-solid fa-dollar-sign"></i>&nbsp; Kwota</span>
+                                <input type="number" id="inputAmount" value="{{ expense.amount }}" class="form-control" placeholder="Podaj kwotę w zł" aria-label="Amount" name="amount" min="0" required>
+                            </div>
+                            <div class="text-danger ms-2 fs-6 position-absolute"></div>
+                        </div>
+                        
+                        <div class="col-12 col-lg-6">
+                            <div class="input-group mb-3">
+
+                                <span class="input-group-text col-5 inputx"><i class="fa-regular fa-calendar-days"></i>&nbsp; Data</span>
+                                <input type="date" id="inputDate" class="form-control" aria-label="Date" name="date" min="1990-01-01" value="{{ date }}" max="2035-12-31" required>
+                            </div>
+                            <div class="text-danger ms-2 fs-6 position-absolute"></div>
+                        </div>
+                    </div>
+                        
+                        
+                    <div class="row m-0 m-lg-3 pt-3">
+                        <div class="col-12 col-lg-6">
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text col-5 inputx"><i class="fa-regular fa-credit-card"></i>&nbsp; Sposób płatności </span>
+                                <select class="form-select" id="inputPayment" name="paymentMethod" aria-label="payment" required>
+                                    <option value="cat0" selected disabled> </option>
+                                    {% for paymentMethod in methodsPayment %}
+                                    <option value="{{ paymentMethod.id }}">
+                                            {{ paymentMethod.name }}
+                                    </option>
+                                    {% endfor %}
+
+                                </select>		
+                            </div>
+                            <div class="text-danger ms-2 fs-6 position-absolute"></div>
+                        </div>
+                        
+                        <div class="col-12 col-lg-6">
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text col-5 inputx"><i class="fa-solid fa-layer-group"></i>&nbsp; Kategoria</span>
+                                <select class="form-select" name="category" id="inputCategory" aria-label="category" required>
+                                    <option value="" selected disabled>	</option>
+                                    {% for category in expensesCategory %}
+                                    <option value="{{ category.id }}">
+                                            {{ category.name }}
+                                    </option>
+                                    {% endfor %}
+                                    <div class="exampleModalLabel">
+                                    <span class="text text-success fw-bold" id="exampleModalLabel">New message</span>
+                                </div>
+                                </select>								
+                            </div>
+                            <div class="text-danger ms-2 fs-6 position-absolute"></div>
+                        </div>
+                    </div>
+                    
+
+                    <div class="row m-0 m-lg-3 pt-3">
+                        <div class="col-12">
+
+                            <div class="input-group mb-3 mt-4">
+                                <span class="input-group-text inputx"><i class="fa-solid fa-comments"></i>&nbsp; Komentarz</span>
+                                <input type="text" name="comment" id="inputComment" class="form-control" placeholder="Dodaj komentarz" aria-label="Comment">
+                            </div>
+                            <div class="text-danger ms-2 fs-6 position-absolute"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="btn-group btn-group-lg start-50 translate-middle mt-5" role="group">
+                        <button type="button" class="btn btn-outline-success me-2" onclick="location.href='/';">Anuluj</button>
+                        <button type="submit" class="btn btn-success ms-2">Dodaj</button>
+                    </div>
+
+                </form>
+
+                <!--limit-->
+                <div class="limitBoard bg-success text-white row justify-content-center align-items-center" id="second_column">
+                    <div class="legend row justify-content-center align-items-center">
+
+                    </div>
+                    <div class="limit_box col-4 text-center" id="limit_info_box"></div>
+                    <div class="limit_box col-4 text-center" id="limit_value_box"></div>
+                    <div class="limit_box col-4 text-center" id="limit_left_box"></div>
+                </div>
+                <!--limit-->
+            </div>
+        
+        </div>
+
+        <div class="col-md-8 col-lg-7 col-xl-6 col-xxl-5  ps-5 pt-2 mt-5 m-md-auto text-danger fs-6 ">
+            {% if expense.errors is not empty %}
+                <p>Errors:</p>
+                <ul>
+                    {% for error in expense.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+    </article>
+    
+</main>
+
+{% endif %}
+
+ 
+
+{% endblock %}

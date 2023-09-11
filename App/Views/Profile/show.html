@@ -1,28 +1,38 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block title %}Profil{% endblock %}
 
 {% block body %}
 
-  <!-- Image -->
-  <div class="">
-    <div style="text-align: center">
-      <img class="profile-image" src="/images/profile.png" alt="profile-img">
-    </div>
-  </div>
+<div class="col-md-10 col-lg-9 col-xl-8 col-xxl-7 m-2 m-md-auto border border-info rounded p-2 shadow-lg">
 
-<div class="text-center mt-5">
-    <h1 class="text-container">Profil</h1>
+
+    <header class="h3 text-center ps-3" style="letter-spacing: 2px; color: #6FB1BF">
+        Profil
+    </header>
+
+
+            <!-- Image -->
+    <div class="mt-4" style="text-align: center;">
+        <img src="/image/profile.png" alt="profile-img" width="25%">
+    </div>
+
+
+    <div class="input-group p-3 m-auto px-5">
+        <dl>
+            <dt>Imię</dt>
+            <dd>{{ user.username }}</dd>
+            <dt>E-mail</dt>
+            <dd>{{ user.email }}</dd>
+        </dl>
+        
+    </div>
+    <div class="d-flex justify-content-center pb-2">
+        <button type="button"  class="btn btn-outline-success m-auto mx-1 btn-lg" onclick="location.href='/profile/edit';">Edytuj</button>
+    </div>
 </div>
 
-<dl class="row">
-    <dt class="col-sm-3 text-uppercase ">Imię</dt>
-    <dd class="col-sm-9">{{ user.name }}</dd>
-    <dt class="col-sm-3 text-uppercase">Adres email</dt>
-    <dd class="col-sm-9">{{ user.email }}</dd>
-</dl>
+</article>
 
-<a class="btn btn-outline-warning btn-lg signButton" href="/profile/edit" role="button"><i class="fas fa-edit"></i>
-    Edycja</a>
 
 {% endblock %}

@@ -4,110 +4,239 @@
 
 {% block footer %}
 
+
+
 <script src="/js/hideShowPassword.min.js"></script>
-<script src="/js/app/js"></script>
+<script src="/js/app.js"></script>
 
 <script>
 
-  $(document).ready(function () {
+    // $.validator.addMethod('validUsername',
+    //     function(value, element, param) {
 
-    /**
-     * Validate the form
-     */
-    $('#formSignup').validate({
-      rules: {
-        name: 'required',
-        email: {
-          required: true,
-          email: true,
-          remote: '/account/validate-email'
-        },
-        password: {
-          required: true,
-          minlength: 6,
-          validPassword: true
-        }
-      },
-      messages: {
-        email: {
-          remote: 'email jest już zajęty'
+    //         if (value != '') {
 
-        }
-      }
+    //             if (value.match(/^[A-ZŁŚ][a-ząęółśżźćń]+$/)) {
+    //                 return true;
+    //             }
+
+    //         }
+
+    //         return false;
+    //     },
+    //     'Imię może zawierać tylko litery! Zacznij od wielkiej litery!'
+    // ); 
+
+
+    // function submitUserForm() {
+    //     var response = grecaptcha.getResponse();
+    //     if(response.length == 0) {
+    //         document.getElementById('g-recaptcha-error').innerHTML = 'Potwierdź, że nie jesteś botem';
+    //         return false;
+    //     }
+    //     return true;
+    // }
+
+
+    // function verifyCaptcha() {
+    //     document.getElementById('g-recaptcha-error').innerHTML = '';
+    // }
+
+
+    $(document).ready(function () {
+
+        /**
+         * Validate the form
+         */
+        $('#formSignup').validate({
+            errorPlacement: function (error, element) {
+                error.appendTo(element.parent().next());
+            },
+
+            rules: {
+                username: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 20,
+                    validUsername: true
+                },
+                email: {
+                    required: true,
+                    email: true,
+                    remote: '/account/validate-email'
+                },
+                password: {
+                    required: true,
+                    minlength: 8,
+                    maxlength: 20,
+                    validPassword: true
+                },
+                statute: {
+                    required: true
+                }
+
+
+            },
+            messages: {
+                username: {
+                    required: 'Nazwa użytkownika jest wymagana',
+                    minlength: 'Nazwa użytkownika musi mieć co najmniej 2 znaki',
+                    maxlength: 'Nazwa użytkownika może mieć maksymalnie 20 znaków'
+                },
+                email: {
+                    required: 'Adres e-mail jest wymagany',
+                    email: 'Proszę podać prawidłowy adres e-mail',
+                    remote: 'Ten adres e-mail jest już zajęty'
+                },
+                password: {
+                    required: 'Hasło jest wymagane',
+                    minlength: 'Hasło musi mieć co najmniej 8 znaków',
+                    maxlength: 'Hasło może mieć maksymalnie 20 znaków'
+                },
+
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+
+        });
+
+        $('#formSignup').on('submit', function (e) {
+            e.preventDefault(); // zapobiegaj domyślnej akcji
+            submitUserForm(); // wywołaj swoją funkcję
+        });
+
+        /**
+         * Show password toggle button
+         */
+        $('#inputPassword').hideShowPassword({
+            show: false,
+            innerToggle: 'focus',
+            toggleHtml: '<span class="toggle-text"></span>',
+            toggleText: {
+                show: 'pokaż',
+                hide: 'ukryj'
+            }
+        });
+
+
+
     });
 
-    /**
-     * 
-     * Show password toggle button
-     * 
-     * 
-     * */
-    $('inputPassword').hideShowPassword({
-      show: false,
-      innerToggle: 'focus'
-    });
-  });
 </script>
 
 {% endblock %}
 
 {% block body %}
 
+<a href="/login" class="btn btn-lg btn-outline-info position-absolute top-0 end-0 me-3 mt-3">Logowanie</a>
+
 <!-- Image -->
-<div class="customer">
-  <div style="text-align: center"><img class="customer-image" src="/images/customerx.png" alt="customer-img">
-  </div>
-</div>
 
-<!-- Name -->
-<section id="signUp">
-  <div class="text-center mt-5">
-    <h1 class="text-container">Rejestracja</h1>
-  </div>
 
-  {% if user.errors is not empty %}
-  <p>Errors:</p>
-  <ul>
-    {% for error in user.errors %}
-    <li>{{ error }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
 
-  <div class="p-3 mb-0">
-    
-    <div class="row">
 
-      <div class="col-12 offset-lg-2 col-lg-8 text-center">
+<article>
 
-        <form method="post" action="/signup/create" id="formSignup">
 
-          <div class="form-group mb-3">
-            <label for="inputName"><i class="fa-regular fa-user"></i> Imię</label>
-            <input id="inputName" name="name" placeholder="Imię" autofocus value="{{ user.name }}" required
-              class="form-control" />
-          </div>
+    <div class="container p-3 pb-5 mb-5" style="font-family: 'Montserrat', sans-serif;">
 
-          <div class="form-group mb-3">
-            <label for="inputEmail"><i class="fa-regular fa-envelope"></i> Adres email</label>
-            <input id="inputEmail" name="email" placeholder="Email" value="{{ user.email }}" required type="email"
-              class="form-control" />
-          </div>
 
-          <div class="form-group mb-3">
-            <label for="inputPassword"><i class="fa-sharp fa-solid fa-key"></i> Hasło</label>
-            <input type="password" id="inputPassword" name="password" placeholder="Hasło" required
-              class="form-control" />
-          </div>
-          <button type="submit" class="btn btn-outline-primary btn-lg signButton">
-            <i class="fa-solid fa-user-plus"></i> Zarejestruj konto</button>
-        </form>
-      </div>
+        <div class="col-md-8 col-lg-7 col-xl-6 col-xxl-7 m-2 m-md-auto border rounded p-2 shadow-lg">
+
+            <header class="h3 text-center m-3" style="letter-spacing: 2px; color: #6FB1BF;">
+                Rejestracja
+            </header>
+
+            <!-- Image -->
+            <div class="mt-4" style="text-align: center;">
+                <img src="/image/customerx.png" alt="ustomer-img" width="25%">
+            </div>
+
+
+            <div class="p-3 mb-0">
+
+                <div class="row">
+
+                    <div class="col-12 offset-lg-2 col-lg-8">
+
+
+                        <form method="post" action="/signup/create" id="formSignup">
+
+                            <div class="input-group pt-3 pb-1 m-auto">
+                                <span class="input-group-text w-25"><i class="fa-regular fa-user"></i> &nbsp;
+                                    Imię</span>
+                                <input type="text" id="inputName" class="form-control" placeholder="Podaj swoje imię"
+                                    aria-label="Name" name="username" value="{{ user.username }}" required>
+                                <div class="text-success"></div>
+                            </div>
+                            <div class="text-danger ms-2 fs-6 position-absolute"></div>
+
+                            <div class="input-group pt-3 pb-1 m-auto mt-3">
+                                <label class="input-group-text w-25"><i class="fa-regular fa-envelope"></i> &nbsp;
+                                    E-mail</label>
+                                <input type="email" id="inputEmail" class="form-control"
+                                    placeholder="Podaj swój adres email" aria-label="Email" name="email"
+                                    value="{{ user.email }}" required>
+                            </div>
+                            <p class="text-danger ms-2 fs-6 position-absolute"></p>
+
+                            <div class="input-group pt-3 pb-1 m-auto mt-3 mb-5">
+                                <label for="inputPassword" class="input-group-text w-25"><i
+                                        class="fa-sharp fa-solid fa-key"></i> &nbsp; Hasło</label>
+
+                                <input type="password" id="inputPassword" class="form-control" placeholder="Podaj hasło"
+                                    aria-label="Password" name="password" required>
+                                <div class="text-danger ms-2 fs-6 position-absolute mt-4 pt-3"></div>
+                            </div>
+
+
+                            <!-- <div class="col-12 col-md-11 col-lg-9 m-auto pt-3 pb-2">
+                    <label>
+                        <input type="checkbox" class="form-check-input" value="a" name="statute" required> Akceptuję <a href="/signup/statute"
+                            target="_blank" class="link">Regulamin</a> i <a href="/signup/privacy" target="_blank"
+                            class="link">Politykę prywatności</a>
+                    </label>
+                    <div class="text-danger ms-2 fs-6 position-absolute mt-4"></div>
+                    <br />
+                    Masz już konto? <a href="/login" class="link">Zaloguj się</a>
+
+                </div>
+                <br />
+                <div class="position-absolute start-50 translate-middle-x">
+
+                    <div class="g-recaptcha" data-sitekey="6LeQ1OQjAAAAADZ_Iswn1RcAXpgAWXbxjNq0Go0n" data-callback="verifyCaptcha"></div>
+                    <div class="text-danger fs-6" id="g-recaptcha-error"></div>
+                </div>
+                <br /><br /><br />
+            </div> -->
+
+
+                            <div class="btn-group btn-group-lg mt-5 start-50 translate-middle">
+                                <button type="submit" class="btn btn-outline-success">Zarejestruj się</button>
+                            </div>
+
+
+                        </form>
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-8 col-lg-7 col-xl-6 col-xxl-5  ps-5 pt-2 mt-5 m-md-auto text-danger fs-6 ">
+                    {% if user.errors is not empty %}
+                    <p>Errors:</p>
+                    <ul>
+                        {% for error in user.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
     </div>
-  </div>
-
-</section>
-
-</form>
+</article>
 
 {% endblock %}

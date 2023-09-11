@@ -3,16 +3,13 @@
 namespace Core;
 
 use \App\Auth;
-use \App\Flash;
-
 
 /**
  * Base controller
  *
  * PHP version 7.0
  */
-
- abstract class Controller
+abstract class Controller
 {
 
     /**
@@ -76,7 +73,6 @@ use \App\Flash;
     {
     }
 
-    
     /**
      * Redirect to a different page
      *
@@ -85,14 +81,12 @@ use \App\Flash;
      * @return void
      */
     public function redirect($url)
-
-
     {
         header('Location: http://' . $_SERVER['HTTP_HOST'] . $url, true, 303);
         exit;
     }
 
- /**
+    /**
      * Require the user to be logged in before giving access to the requested page.
      * Remember the requested page for later, then redirect to the login page.
      *
@@ -102,15 +96,9 @@ use \App\Flash;
     {
         if (! Auth::getUser()) {
 
-            Flash::addMessage('Zaloguj się, aby uzyskać dostęp do tej strony.' , Flash::INFO);
-
             Auth::rememberRequestedPage();
 
             $this->redirect('/login');
         }
     }
-
 }
-
-
-

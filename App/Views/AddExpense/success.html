@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Doaj wydatek{% endblock %}
+
+{% block body %}
+
+<article>
+    <div class="container p-3 pb-5 mb-5" style="font-family: 'Montserrat', sans-serif;">
+
+        <div class="col-md-8 col-lg-7 col-xl-6 col-xxl-7 m-2 m-md-auto border rounded p-2 shadow-lg">
+
+            <header class="h3 text-center m-3" style="letter-spacing: 2px; color: #FFA500;">
+                Wydatek został dodany!
+            </header>
+
+
+            <!-- Image -->
+            <div class="mt-5 mb-5" style="text-align: center;">
+                <img src="/image/dislike.png" alt="dislike-img" width="20%">
+            </div>
+
+            <div class="text-center" style="line-height: 2;"">
+            Twój wydatek został dodany! 
+        <br>
+        Jeśli chcesz dodać kolejny wydatek <br> kliknij poniższy przycisk
+    </div>
+    <div class=" btn-group btn-group-lg start-50 translate-middle mt-5" role="group">
+                <button type="button" class="btn btn-outline-warning" onclick="location.href='/addExpense';">Dodaj
+                    kolejny wydatek</button>
+            </div>
+
+            <br>
+
+            <div class="text-center" style="line-height: 2;"">
+            Jeśli chcesz tym razem dodać przychód <br> kliknij poniższy przycisk
+        </div>
+
+
+            <div class=" btn-group btn-group-lg start-50 translate-middle mt-5" role="group">
+                <button type="button" class="btn btn-outline-success " onclick="location.href='/addIncome';">Dodaj przychód</button>
+            </div>
+
+
+
+</article>
+
+
+
+{% endblock %}

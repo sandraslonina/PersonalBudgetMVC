@@ -1,0 +1,286 @@
+{% extends 'base.html' %}
+
+{% block title %}Przeglądaj bilans{% endblock %}
+
+{% block body %}
+
+{% if current_user %}
+
+<main>
+
+
+
+	<div class="container p-3 pb-5 mb-5" style="font-family: 'Montserrat', sans-serif;">
+
+
+		<div class="col-15 border border-primary rounded p-3 ">
+
+
+			<header class="h3 text-center mb-3" style="letter-spacing: 2px; color: #337CCF;">
+				Przeglądaj bilans
+			</header>
+
+			<!-- Image -->
+			<div class="mt-4 mb-4" style="text-align: center;">
+				<img src="/image/scale.png" alt="scale-img" width="15%">
+			</div>
+
+
+			<div class="row">
+				<div class="col-12 col-lg-6 p-2">
+					<div class="border border rounded p-1 p-lg-4">
+						<section>
+							<form method="post" action="/viewBalanceSheet/create">
+								<div class="row my-3">
+									<div class="col-6 text-center">
+										Przedział czasowy
+									</div>
+									<div class="col-6 pb-1">
+
+										<select class="form-select border border col-6" name="timePeriod"
+											onchange="this.form.submit()">
+
+											<option value="0" {% if timePeriod %} {% else %} selected {% endif %} disabled> Wybierz zakres
+											</option>
+											<option value="1" {% if timePeriod==1 %} selected {% endif %}> Ten miesiąc </option>
+											<option value="2" {% if timePeriod==2 %} selected {% endif %}> Ubiegły miesiąc </option>
+											<option value="3" {% if timePeriod==3 %} selected {% endif %}> Ten rok </option>
+											<option value="4" {% if timePeriod==4 %} selected {% endif %}> Ubiegły rok </option>
+
+											{% if timePeriod==5 %}
+											<option value="5" selected> Własny zakres </option>
+											{% endif %}
+										</select>
+
+									</div>
+
+								</div>
+							</form>
+
+							<div class="d-grid gap-2 col-9 col-lg-6 mx-auto">
+								<button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#timeRange">
+									Wybierz własny zakres...
+								</button>
+							</div>
+
+						</section>
+					</div>
+				</div>
+				<div class="col-12 col-lg-6 p-2">
+					<div class="border border-primary rounded p-1 p-lg-3">
+						<section>
+							<div class="row my-3 px-4">
+								<div class="col-6 h4 text-center">Bilans:</div>
+								<div class="col-5 h4  text-center fw-bold"><span
+										class={{balance.colorText}}>{{balance.balanceSign}}{{balance.balanceAmount}} </span> zł</div>
+							</div>
+
+							<div class="fs-6 text-center {{balance.colorText}}"> {{balance.commentToBalance}}</div>
+
+							<div class="text-success fs-6 text-center " id="periodText"><br>{{balance.periodTime}}</div>
+
+						</section>
+
+					</div>
+
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12 col-lg-6 p-2">
+					<div class="border border-success rounded py-3 px-1 px-lg-3">
+						<section>
+
+							<header class="h4 text-center mb-3">
+								Przychody
+							</header>
+
+							{% for categoryIndex, category in balance.incomeCategories %}
+							{% if balance.sumOfIncomes[categoryIndex] > 0 %}
+
+							<div class="col-6 col-lg-7 text-start d-inline-block ms-2 my-2">{{ category.name }}</div>
+							<div class="col-3 text-end d-inline-block ms-2 my-2"><span class="text-success pe-1">+</span>{{
+								balance.sumOfIncomes[categoryIndex] }}zł</div>
+							<a class="cleanLink2" data-bs-toggle="collapse" href="#collapseIncome{{categoryIndex}}" role="button"
+								aria-expanded="false"> &nbsp; <i class="icon-down-open"></i></a>
+							<div class="collapse" id="collapseIncome{{categoryIndex}}">
+								<div class="card card-body">
+									<div class="fs-6 fst-italic">
+										<div class="col-5 text-start d-inline-block text-success">Komentarz</div>
+										<div class="col-3 text-start d-inline-block text-success">Data</div>
+										<div class="col-3 text-end d-inline-block text-success">Kwota</div>
+
+										{% for incomeIndex, incomeComment in balance.singleIncomeComment[categoryIndex] %}
+
+										<div class="col-5 text-start d-inline-block">{{ incomeComment }}</div>
+										<div class="col-3 text-start d-inline-block">{{ balance.singleIncomeDate[categoryIndex][incomeIndex]
+											}}</div>
+										<div class="col-3 text-end d-inline-block">{{ balance.singleIncomeAmount[categoryIndex][incomeIndex]
+											}}</div>
+
+										{% endfor %}
+
+									</div>
+								</div>
+							</div>
+							{% endif %}
+							{% endfor %}
+							<div class="border-bottom border-success my-2"></div>
+
+							<div class="col-7 text-start d-inline-block ms-2 my-2 fw-bold">Suma:</div>
+							<div class="col-3 text-end d-inline-block  ms-2 my-2 fw-bold"><span class="text-success pe-1">+</span>{{
+								balance.generalSumOfIncomes }}zł</div>
+
+						</section>
+					</div>
+				</div>
+				<div class="col-12 col-lg-6 p-2">
+					<div class="border border-warning rounded py-3 px-1 px-lg-3">
+						<section>
+							<header class="h4 text-center mb-3">
+								Wydatki
+							</header>
+
+							{% for categoryIndex, category in balance.expenseCategories %}
+							{% if balance.sumOfExpenses[categoryIndex]>0 %}
+							<div class="col-6 col-lg-7 text-start d-inline-block ms-2 my-2">{{ category.name }}</div>
+							<div class="col-3 text-end d-inline-block ms-2 my-2"><span class="text-warning pe-1">-</span>{{
+								balance.sumOfExpenses[categoryIndex] }}zł</div>
+							<a class="cleanLink2" data-bs-toggle="collapse" href="#collapseExpense{{categoryIndex}}" role="button"
+								aria-expanded="false"> &nbsp; <i class="icon-down-open"></i></a>
+							<div class="collapse" id="collapseExpense{{categoryIndex}}">
+								<div class="card card-body">
+									<div class="fs-6 fst-italic">
+										<div class="col-5 text-start d-inline-block text-success">Komentarz</div>
+										<div class="col-3 text-start d-inline-block text-success">Data</div>
+										<div class="col-3 text-end d-inline-block text-success">Kwota</div>
+										{% for expenseIndex, expenseComment in balance.singleExpenseComment[categoryIndex] %}
+
+										<div class="col-5 text-start d-inline-block">{{ expenseComment }}</div>
+										<div class="col-3 text-start d-inline-block">{{
+											balance.singleExpenseDate[categoryIndex][expenseIndex]
+											}}</div>
+										<div class="col-3 text-end d-inline-block">{{
+											balance.singleExpenseAmount[categoryIndex][expenseIndex]
+											}}</div>
+
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+
+
+							{% endif %}
+							{% endfor %}
+
+							<div class="border-bottom border-warning my-2"></div>
+
+							<div class="col-7 text-start d-inline-block ms-2 my-2 fw-bold">Suma:</div>
+							<div class="col-3 text-end d-inline-block ms-2 my-2 fw-bold"><span class="text-warning pe-1">- </span>{{
+								balance.generalSumOfExpenses }} zł</div>
+
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</main>
+
+
+<div class="modal fade" id="timeRange" tabindex="-1" aria-labelledby="timeRangeLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="enrollLabel">Wybierz zakres</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form method="post" action="/viewBalanceSheet/create">
+				<div class="modal-body">
+					<div class="row m-0 m-lg-3">
+						<div class="col-12 col-lg-6">
+							<div class="input-group mb-3">
+								<span class="input-group-text w-25">Od</span>
+								<input type="date" class="form-control" aria-label="Date" aria-describedby="date" name="startPeriod"
+									min="1990-01-01" value="" max="2035-12-31" required onchange="setMinEndDate(event)">
+							</div>
+						</div>
+
+						<div class="col-12 col-lg-6">
+							<div class="input-group mb-3">
+								<span class="input-group-text w-25">Do</span>
+								<input type="date" class="form-control" aria-label="Date" aria-describedby="date" name="endPeriod"
+									min="1990-01-01" value="" max="2035-12-31" required>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+						Zamknij
+					</button>
+					<button type="submit" class="btn btn-success">Wybierz</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+	const startDateInput = document.querySelector('input[name="startPeriod"]');
+	const endDateInput = document.querySelector('input[name="endPeriod"]');
+
+	function setMinEndDate(event) {
+		const startDateValue = event.target.value;
+		endDateInput.min = startDateValue;
+		endDateInput.value = startDateValue;
+	}
+</script>
+
+
+{% else %}
+<article>
+
+	<div class="container p-3 pb-5 mb-5" style="font-family: 'Montserrat', sans-serif;">
+		<div class="col-md-8 col-lg-7 col-xxl-7  m-2 m-md-auto mb-3 border rounded p-2 shadow-lg">
+
+			<header class="h2 text-start mx-auto my-3 text-center"
+				style="letter-spacing: 2px; font-family: 'Montserrat', sans-serif;  color: #F28705;">
+				Witaj w aplikacji Budżet osobisty.com!
+			</header>
+
+			<div class="mt-5" style="text-align: center;">
+				<img src="image/save-money.png" alt="savemoney-img" width="25%">
+			</div>
+
+
+			<div class="h4 mt-5 m-auto text-center" style="line-height: 1.5;">
+				Zacznij zarządzać swoim budżetem już dziś!<br>
+				Dołącz do grona zadowolonych użytkowników!<br>
+				Dzięki temu będziesz miał kontrolę nad finansami.<br>
+			</div>
+
+
+
+			<div class="h5 mt-5 text-end">"Kto ma kontrolę nad pieniędzmi, ten ma władzę nad światem"</div>
+			<p class="h6 text-end"><i class="fa-solid fa-person"></i> Henry Kissinger</p>
+
+
+
+			<div class="btn-group btn-group-lg start-50 translate-middle mt-5" role="group">
+				<button type="button" class="btn btn-outline-success me-2 btn-lg"
+					onclick="location.href='/signup/new';">Zarejestruj się</button><br>
+
+				<button type="button" class="btn btn-success ms-2 btn-lg" onclick="location.href='/login';">Zaloguj się</button>
+			</div>
+
+		</div>
+	</div>
+
+</article>
+
+{% endif %}
+
+{% endblock %}

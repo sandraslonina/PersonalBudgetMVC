@@ -2,17 +2,14 @@
 
 namespace App;
 
+use AllowDynamicProperties;
 use App\Models\User;
 use App\Models\RememberedLogin;
 
-/**
- * Authentication
- *
- * PHP version 7.0
- */
+#[AllowDynamicProperties]
 class Auth
 {
-    /**
+     /**
      * Login the user
      *
      * @param User $user The user model
@@ -26,12 +23,15 @@ class Auth
         $_SESSION['user_id'] = $user->id;
 
         if ($remember_me) {
+
             if ($user->rememberLogin()) {
+
                 setcookie('remember_me', $user->remember_token, $user->expiry_timestamp, '/');
+
             }
         }
     }
-
+    
     /**
      * Logout the user
      *
@@ -39,28 +39,28 @@ class Auth
      */
     public static function logout()
     {
-        // Unset all of the session variables
-        $_SESSION = [];
+      // Unset all of the session variables
+      $_SESSION = [];
 
-        // Delete the session cookie
-        if (ini_get('session.use_cookies')) {
-            $params = session_get_cookie_params();
+      // Delete the session cookie
+      if (ini_get('session.use_cookies')) {
+          $params = session_get_cookie_params();
 
-            setcookie(
-                session_name(),
-                '',
-                time() - 42000,
-                $params['path'],
-                $params['domain'],
-                $params['secure'],
-                $params['httponly']
-            );
-        }
+          setcookie(
+              session_name(),
+              '',
+              time() - 42000,
+              $params['path'],
+              $params['domain'],
+              $params['secure'],
+              $params['httponly']
+          );
+      }
 
-        // Finally destroy the session
-        session_destroy();
+      // Finally destroy the session
+      session_destroy();
 
-        static::forgetLogin();
+      static::forgetLogin();  
     }
 
     /**
@@ -83,21 +83,19 @@ class Auth
         return $_SESSION['return_to'] ?? '/';
     }
 
-
     /**
      * Get the current logged-in user, from the session or the remember-me cookie
-     * 
+     *
      * @return mixed The user model or null if not logged in
      */
-
     public static function getUser()
     {
         if (isset($_SESSION['user_id'])) {
+
             return User::findByID($_SESSION['user_id']);
         } else {
 
             return static::loginFromRememberCookie();
-
         }
     }
 
@@ -125,7 +123,7 @@ class Auth
         }
     }
 
-     /**
+    /**
      * Forget the remembered login, if present
      *
      * @return void

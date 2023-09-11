@@ -1,54 +1,79 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block title %}Logowanie{% endblock %}
 
 {% block body %}
 
-  <!-- Image -->
-<div class="user">
-  <div style="text-align: center"><img class="user-image" src="/images/userx.png" alt="user-img">
-  </div>
-</div>
+<a href="/signup/new" class="btn btn-lg btn-outline-info position-absolute top-0 end-0 me-3 mt-3">Rejestracja</a>
 
-<!-- Name -->
-<section id="signIn">
-  <div class="text-center mt-5">
-    <h1 class="text-container">Logowanie</h1>
-  </div>
+<article>
+    <div class="container p-3 pb-5 mb-5" style="font-family: 'Montserrat', sans-serif;">
 
-  <div class="p-3 mb-0">
 
-    <div class="row">
+        <div class="col-md-8 col-lg-7 col-xl-6 col-xxl-7 m-2 m-md-auto border rounded p-2 shadow-lg">
 
-      <div class="col-12 offset-lg-2 col-lg-8 text-center">
+            <header class="h3 text-center m-3" style="letter-spacing: 2px; color: #6FB1BF;">
+                Logowanie
+            </header>
 
-        <form action="/login/create" method="post">
+            <!-- Image -->
+            <div class="mt-4" style="text-align: center;">
+                <img src="/image/userx.png" alt="user-img" width="25%">
+            </div>
 
-          <div class="form-group mb-3 ">
-            <label for="inputEmail"><i class="fa-regular fa-envelope"></i> Adres email</label>
-            <input type="email" id="inputEmail" name="email" placeholder="Email" autofocus value="{{ email }}" class="form-control"/>
-          </div>
-          <div class="form-group mb-3">
-            <label for="inputPassword"><i class="fa-sharp fa-solid fa-key"></i> Hasło</label>
-            <input type="password" id="inputPassword" name="password" placeholder="Hasło" class="form-control"/>
-          </div>
-        
-          <div class="checkbox mb-3">
-            <label>
-              <input type="checkbox" name="remember_me" {% if remember_me %} checked="checked" {% endif %}/> Zapamiętaj dane
-            </label>
-          </div>
-          
-          <button type="submit" class="btn btn-outline-success btn-lg signButton"><i
-            class="fa-solid fa-right-to-bracket"></i> Zaloguj się</button>
-          <a class="btn btn-outline-warning btn-lg signButton" href="/password/forgot"  role="button"><i class="far fa-times-circle"></i>  Zapomniałeś hasła?</a>
-        </form>
-      </div>
-    </div>
-  </div>
+            <div class="p-3 mb-0">
 
-</section>
+                <div class="row">
 
-</form>
+                    <div class="col-12 offset-lg-2 col-lg-8">
+
+
+                        <form action="/login/create" method="post">
+
+                            <div class="input-group p-3 m-auto">
+                                <span class="input-group-text w-25"><i class="fa-regular fa-envelope"></i> &nbsp;
+                                    Email</span>
+                                <input type="email" id="inputEmail" class="form-control"
+                                    placeholder="Podaj swój adres e-mail" aria-label="Email" name="email" autofocus
+                                    value="{{ email }}" required>
+                            </div>
+
+                            <div class="input-group p-3 m-auto">
+                                <span class="input-group-text w-25"><i class="fa-sharp fa-solid fa-key"></i> &nbsp;
+                                    Hasło</span>
+                                <input type="password" id="inputPassword" class="form-control" placeholder="Podaj hasło"
+                                    aria-label="Password" name="password" required>
+                            </div>
+
+                            <div class="col-12 col-md-11 pt-3 text-start">
+                                <div class="ms-3 p-3 fs-6">
+                                    <label>
+                                        <input type="checkbox" class="form-check-input" name="remember_me" {% if
+                                            remember_me %} checked="checked" {% endif %}> Zapamiętaj mnie
+                                    </label>
+                                    <div class="text-danger ms-2 fs-6 position-absolute mt-2 pt-3"></div>
+
+                                </div>
+                            </div>
+
+                            <div class="text-start">
+                                <div class="ms-3 p-2 fs-6">
+                                    <a href="/password/forgot" class="link"> Przypomnienie hasła </a>
+                                    <br />
+                                    Nie masz konta? <a href="/signup/new" class="link">Zarejestruj się</a>
+                                </div>
+                            </div>
+
+                            <div class="btn-group btn-group-lg mt-5 start-50 translate-middle">
+                                <button type="submit" class="btn btn-outline-success">Zaloguj się</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+</article>
+
 
 {% endblock %}

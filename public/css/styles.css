@@ -1,82 +1,241 @@
 body {
-  margin-bottom: 0px;
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: 20px;
+    margin-bottom:50px;
 }
 
+h1.logo
+{
+	font-size: 40px;
+	font-weight: 400;
+	font-family: 'Caveat', cursive;
+	line-height: 40px;
+	margin-top: 10px;
+	margin-bottom: 22px;
+}
+
+select:hover,
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=email]:focus,
+input[type=number]:focus
+{
+	border: 1px solid #5BEB3D;
+}
+
+select:hover,
+input[type=text]:hover,
+input[type=password]:hover,
+input[type=email]:hover,
+input[type=number]:hover
+{
+	border: 1px solid #0E7373;
+}
+
+.link
+{
+	color: #0E7373;
+	text-decoration: none;
+}
+
+.link:hover
+{
+	text-decoration: underline;
+}
+
+.link:visited
+{
+	color: #0E7373;
+	text-decoration: none;
+}
+
+.cleanLink,
+.cleanLink:hover,
+.cleanLink:visited
+{
+	color: #000;
+	text-decoration: none;
+}
+
+ol > li
+{
+	height: 55px;
+}
+
+ol > li:hover > a
+{
+	border-bottom: 2px solid #4bb063;
+	padding-bottom: 15px;
+}
+
+ol > li:hover > ul
+{
+	display: block;
+}
+
+ol > li > ul > li > a
+{
+	font-size: 16px;
+	height: 30px;
+}
+
+ol > li > ul > li:hover > a
+{
+	border-bottom: 1px solid #4bb063;
+	height: 30px;
+}
+
+.pie {
+	margin-left: auto;
+	margin-right: auto;
+	width: 300px;
+	margin-top: 100px;
+}
+
+svg {
+  width: 300px; height: 300px;
+  transform: rotate(-90deg);
+  background: yellowgreen;
+  border-radius: 50%;
+}
+
+circle {
+  fill: yellowgreen;
+  stroke: #655;
+  stroke-width: 32;
+  stroke-dasharray: 38 100; /* for 38% */
+}
+
+.pie2 {
+	margin-left: auto;
+	margin-right: auto;
+	width: 150px;
+	margin-top: 40px;
+}
+
+.pie2 > svg {
+  width: 150px; height: 150px;
+  transform: rotate(-90deg);
+  background: yellowgreen;
+  border-radius: 50%;
+}
+
+.pie2 > circle {
+  fill: yellowgreen;
+  stroke: #655;
+  stroke-width: 32;
+  stroke-dasharray: 38 100; /* for 38% */
+}
+
+.navbar
+{
+	min-height: 57px;
+}
+
+.welcomeConteiner
+{
+	min-height: 600px;
+}
+/*
 .alert {
-
-  padding: 10px;
-  margin-top: 2em;
+    border: 1px solid #ccc;
+    padding: 6px;
 }
-
-/* .alert-info {
-  background-color: blue;
+.alert-info {
+    background-color: #d9edf7;
 }
-
 .alert-success {
-  background-color: green;
+    background-color: #dff0d8;
 }
-
 .alert-warning {
-  background-color: red;
-} */
+    background-color: #fcf8e3;
+}
+*/
 
-/* Heading */
+.input-group-text {
 
-.mainLine {
-  padding: 2% 10%;
-  background-color: #913175;
-  margin: 0px;
+	border: 1px solid #ced4da;
 }
 
-.header {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 800;
-  color: #E9E8E8;
-  text-align: center;
-  font-size: 3.5rem;
-  text-transform: uppercase;
-  letter-spacing: 5px;
+.form-control {
+    border: 1px solid #ced4da;
+
 }
 
-/* Introduction */
+.form-check-input {
+    border: var(--bs-border-width) solid #ced4da;
 
-.introduction-text {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 3rem;
-  line-height: 1.5;
-  text-align: center;
-  padding: 3% 5%;
 }
 
-.introduction-text-helpful {
-  font-family: 'Montserrat', sans-serif;
-  text-align: right;
-  font-size: 1.5rem;
-}
-
-/* Title */
-
-#title {
-  margin-top: 3em;;
-  text-align: left;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.title-text {
-  line-height: 1.5;
-  font-size: 2rem;
+.cleanLink2,
+.cleanLink2:visited
+{
+	color: #000000;
+	text-decoration: none;
 }
 
 
-.title-image {
-  width: 70%;
-  
+.cleanLink2:hover
+{
+	color: yellowgreen;
+	text-decoration: none;
 }
 
-
-.signButton {
-  margin: 5% 3% 5% 0;
+ul > li
+{
+	margin-left: auto;
+	margin-right: auto;
+	list-style-type: none;
 }
+
+.limitBoards
+{
+	background-color: yellowgreen;
+}
+
+@media only screen and (max-width: 600px) {
+	body {
+	  font-size: 15px;
+	}
+  }
+
+  @media only screen and (max-width: 600px) {
+	#chartContainer2 {
+	  height: 250px !important;
+	}
+  }
+
+  @media only screen and (max-width: 600px) {
+	#chartx {
+	  height: 350px !important;
+	}
+  }
+
+  @media only screen and (max-width: 600px) {
+	input[type="text"], 
+	input[type="email"], 
+	input[type="password"], 
+	input[type="number"], 
+	input[type="date"], 
+	input[type="select"], 
+	select.form-select,
+	textarea {
+	  font-size: 13px;
+	}
+  }
+
+  @media only screen and (max-width: 600px) {
+	.inputx {
+		font-size: 13px;
+	}
+  }
+
+  @media only screen and (max-width: 600px) {
+	#periodText {
+		font-size: 12px !important;
+	}
+  }
 
 
 /* Footer */
@@ -101,168 +260,27 @@ body {
   padding: 8px 0;
 }
 
+/* Introduction */
 
-/* Login In */
-
-.user-image {
-  margin-top: 20px;
-  width: 30%;
-
+.introduction-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3rem;
+  line-height: 1.5;
+  text-align: center;
+  padding: 3% 5%;
 }
+
+.introduction-text-helpful {
+  font-family: 'Montserrat', sans-serif;
+  text-align: right;
+  font-size: 1.5rem;
+}
+
+
 
 /* Sign Up */
 
 .customer-image {
   margin-top: 20px;
   width: 30%;
-}
-
-/* Edit */
-
-.pencil-image {
-  margin-top: 20px;
-  width: 20%;
-}
-
-/* Send */
-
-.send-image {
-  margin-top: 20px;
-  width: 20%;
-}
-
-/* Send */
-.prize-image {
-  margin-top: 20px;
-  width: 20%;
-}
-
-/* Forgor mail */
-.forgot-image {
-  margin-top: 20px;
-  width: 20%;
-}
-
-/* Send */
-.choice-image {
-  margin-top: 5px;
-  width: 20%;
-  margin-bottom: 20px;
-}
-
-/* Email */
-.email-image {
-  margin-top: 20px;
-  width: 15%;
-}
-
-/* Reser password */
-.password-image {
-  margin-top: 20px;
-  width: 20%;
-}
-
-/* Profile */
-.profile-image {
-  margin-top: 20px;
-  width: 20%;
-}
-
-
-
-.container {
-  color: #E9E8E8;
-  font-family: 'Montserrat', sans-serif;
-  padding: 3% 15% 5%;
-}
-
-.text-container {
-  margin-bottom: 50px;
-}
-
-.mb-3 {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.2rem;
-}
-
-/* Menu */
-
-#menu {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.5rem;
-}
-
-
-.menu-bottom {
-  background-color: #20262E;
-  color: #E9E8E8;
-  text-align: center;
-  padding: 3% 15% 5%;
-}
-
-/* Income */
-
-.budget-image {
-  width: 30%;
-  margin-top: 30px;
-}
-
-
-.text-menu {
-  font-family: 'Montserrat', sans-serif;
-  line-height: 1.5;
-}
-
-.income-image {
-  width: 15%;
-  margin-top: 10px;
-}
-
-
-/* Balance */
-
-#balance {
-  text-align: center;
-}
-
-.routine-image {
-  width: 15%;
-  margin-top: 20px;
-}
-
-
-.balance-top {
-  background-color: #20262E;
-  color: #E9E8E8;
-  text-align: center;
-  padding: 3% 15% 5%;
-}
-
-.incomes-text {
-  font-family: 'Montserrat', sans-serif;
-  line-height: 1.5;
-  color: green;
-  text-align: center;
-  font-size: 2rem;
-}
-
-.expence-text {
-  font-family: 'Montserrat', sans-serif;
-  line-height: 1.5;
-  color: red;
-  text-align: center;
-  font-size: 2rem;
-}
-
-.balance-text {
-  font-family: 'Montserrat', sans-serif;
-  line-height: 1.5;
-  color: yellow;
-  text-align: center;
-  font-size: 2rem;
-}
-
-.navbar {
-  height: 80px;
-  font-size: 1.2rem;
 }

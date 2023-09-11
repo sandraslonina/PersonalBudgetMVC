@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+
 use App\Config;
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -27,39 +28,39 @@ class Mail
    * 
    */
 
-    public static function send($to, $subject, $text, $html)
-    {
-        try{
-          $mail = new PHPMailer(true);         
+  public static function send($to, $subject, $text, $html)
+  {
+    try {
+      $mail = new PHPMailer(true);
 
-        $mail->isSMTP();                                       
-                        
-        
-        $mail->SMTPSecure = 'ssl';  
-        $mail->Host = Config::SMTP_HOST;
-        $mail->SMTPAuth   = true; 
-        $mail->Username = Config::SMTP_USER;
-        $mail->Password = Config::SMTP_PASS;      
-        $mail->Port = 465;                       
-        
-        $mail->CharSet  = 'UTF-8';
-        $mail->SetFrom('sandra.example95@gmail.com', 'Budżet Osobisty');
-        $mail->addAddress($to);
-       
+      $mail->isSMTP();
 
-        $mail->Subject = $subject;
-        $mail->Body    = $html;
-        $mail->AltBody = $text;
-       
-        $mail->isHTML(true);     
 
-        $mail->Send();
+      $mail->SMTPSecure = 'ssl';
+      $mail->Host = Config::SMTP_HOST;
+      $mail->SMTPAuth = true;
+      $mail->Username = Config::SMTP_USER;
+      $mail->Password = Config::SMTP_PASS;
+      $mail->Port = 465;
 
-        // echo 'Message sent';
-      } 
-      catch (Exception $e) {
+      $mail->CharSet = 'UTF-8';
+      $mail->SetFrom('sandra.example95@gmail.com', 'Budżet Osobisty');
+      $mail->addAddress($to);
+
+
+
+      $mail->Subject = $subject;
+      $mail->Body = $html;
+      $mail->AltBody = $text;
+
+      $mail->isHTML(true);
+
+      $mail->Send();
+
+      // echo 'Message sent';
+    } catch (Exception $e) {
       echo 'Message not sent: ', $mail->ErrorInfo;
-      }
-        
     }
+
   }
+}

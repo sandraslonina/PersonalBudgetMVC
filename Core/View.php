@@ -7,7 +7,6 @@ namespace Core;
  *
  * PHP version 7.0
  */
-#[\AllowDynamicProperties]
 class View
 {
 
@@ -23,7 +22,7 @@ class View
     {
         extract($args, EXTR_SKIP);
 
-        $file = dirname(__DIR__) . "/App/Views/$view"; // relative to Core directory
+        $file = dirname(__DIR__) . "/App/Views/$view";  // relative to Core directory
 
         if (is_readable($file)) {
             require $file;
@@ -42,7 +41,7 @@ class View
      */
     public static function renderTemplate($template, $args = [])
     {
-        echo static::getTemplate($template, $args);        
+        echo static::getTemplate($template, $args);   
     }
 
     /**
@@ -58,7 +57,7 @@ class View
         static $twig = null;
 
         if ($twig === null) {
-            $loader = new \Twig\Loader\FilesystemLoader('../App/Views');
+            $loader = new \Twig\Loader\FilesystemLoader(dirname(__DIR__) . '/App/Views');
             $twig = new \Twig\Environment($loader);
             $twig->addGlobal('current_user', \App\Auth::getUser());
             $twig->addGlobal('flash_messages', \App\Flash::getMessages());

@@ -1,30 +1,47 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block title %}Resetowanie hasła{% endblock %}
 
 {% block body %}
 
-<!-- Image -->
-<div class="edit">
-  <div style="text-align: center"><img class="forgot-image" src="/images/forgot-password.png" alt="forgot-img">
-  </div>
-</div>
+<a href="/signup/new" class="btn btn-lg btn-outline-secondary position-absolute top-0 end-0 me-3 mt-3">Rejestracja</a>
 
-<div class="text-center mt-5 ">
-  <h1 class="text-container">Przypomnienie hasła</h1>
+<article>
 
-  <div class="col-12 offset-lg-2 col-lg-8 text-center">
-    <form method="post" action="/password/request-reset">
-      <div class="form-group mb-3">
-        <label for="inputEmail"><i class="fa-regular fa-envelope"></i> Adres email </label>
-        <input type="email" id="inputEmail" name="email" placeholder="email" autofocus required class="form-control" />
-      </div>
+    <div class="container p-3 pb-5 mb-5" style="font-family: 'Montserrat', sans-serif;">
 
-      <button type="submit" class="btn btn-outline-info btn-lg signButton"><i class="fas fa-recycle"></i> Zresetuj
-        hasło</button>
-  </div>
-</div>
+        <div class="col-md-8 col-lg-7 col-xl-6 col-xxl-7 m-2 m-md-auto border rounded p-2 shadow-lg">
 
-</form>
+            <header class="h3 text-center m-3" style="letter-spacing: 2px; color: #6FB1BF;">
+                Przypomnienie hasła
+            </header>
+
+            <!-- Image -->
+            <div class="mt-5 mb-5" style="text-align: center;">
+                <img src="/image/forgot-password.png" alt="forgot-img" width="20%">
+            </div>
+
+            <form action="/password/request-reset" method="post">
+
+                <div class="input-group p-3 m-auto">
+                    <span class="input-group-text w-25"><i class="fa-regular fa-envelope"></i> &nbsp; Email</span>
+                    <input type="email" id="inputEmail" class="form-control" placeholder="Podaj swój adres email"
+                        aria-label="Email" name="email" autofocus value="{{ email }}">
+                </div>
+
+                <div class="btn-group btn-group-lg start-50 translate-middle mt-5" role="group">
+                    <button type="button" class="btn btn-outline-warning me-2"
+                        onclick="location.href='/';">Anuluj</button>
+                    <button type="submit" class="btn btn-success ms-2">Zresetuj hasło</button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</article>
+
 
 {% endblock %}

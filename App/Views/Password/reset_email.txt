@@ -1,5 +1,5 @@
 Resetowanie hasła
 
-Kliknij poniższy link aby zresetować swoje hasło:
+Proszę kliknąć w poniższy link w celu zresetowania hasła:
 
 {{ url }}

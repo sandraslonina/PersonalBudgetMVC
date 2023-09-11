@@ -1,52 +1,198 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block title %}Strona startowa{% endblock %}
 
+{% block head %}
+
+<script>
+	window.onload = function () {
+
+		var chartDataIncomes = [];
+		{% for category in incomeCategories %}
+		{% if sumOfIncomes[loop.index - 1] > 0 %}
+		chartDataIncomes.push({
+			y: {{ sumOfIncomes[loop.index - 1] }},
+		label: "{{ category.name }}"
+			}),
+	{% endif %}
+	{% endfor %}
+
+	var chart = new CanvasJS.Chart("chartContainer", {
+		animationEnabled: true,
+		data: [{
+			type: "doughnut",
+			startAngle: -90,
+			radius: "70%",
+			indexLabelFontSize: 16,
+			indexLabel: "{label} - #percent%",
+			toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+			dataPoints: chartDataIncomes
+		}]
+	});
+
+
+
+
+	var chartDataExpenses = [];
+	{% for category in expenseCategories %}
+	{% if sumOfExpenses[loop.index - 1] > 0 %}
+	chartDataExpenses.push({
+		y: {{ sumOfExpenses[loop.index - 1] }},
+		label: "{{ category.name }}"
+			});
+	{% endif %}
+	{% endfor %}
+
+	var chart2 = new CanvasJS.Chart("chartContainer2", {
+		animationEnabled: true,
+		data: [{
+			type: "doughnut",
+			startAngle: -90,
+			radius: "70%",
+			indexLabelFontSize: 16,
+			indexLabel: "{label} - #percent%",
+			toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+			dataPoints: chartDataExpenses
+		}]
+	});
+
+	chart.render();
+	chart2.render();
+	}
+
+</script>
+
+{% endblock %}
+
+
 {% block body %}
 
-<h1 class="text-container text-center mt-5 text-warning">Witaj!</h1>
 
 {% if current_user %}
 
-<!-- Image -->
-<div class="choice">
-  <div style="text-align: center">
-    <img class="choice-image" src="/images/choice.png" alt="choice-img">
-  </div>
-</div>
+<main>
 
-<h2 class="text-container text-center">Cześć {{ current_user.name}}!</h2>
-<h3 class="text-container text-center">Wybierz opcję z menu głównego</h3>
+	<div class="row px-2 text">
+
+
+		<article>
+
+			<div class="col-8 mb-3 mx-auto border border-primary rounded p-2">
+
+				<header class="h4 text-center mb-3">
+					<div class="d-inline-block">Ten miesiąc: </div>
+				</header>
+
+				<section>
+
+					<div class="col-7 text-start d-inline-block ms-2 my-3">Suma przychodów:</div>
+					<div class="col-4 text-end d-inline-block me-2 my-3"><span class="text-success pe-1">+ {{
+							generalSumOfIncomes }} zł</span></div>
+
+					<div class="col-7 text-start d-inline-block ms-2 my-3">Suma wydatków:</div>
+					<div class="col-4 text-end d-inline-block me-2 my-3"><span class="text-warning pe-1">- {{
+							generalSumOfExpenses }} zł</span></div>
+
+					<div class="border-bottom border-info my-2"></div>
+
+					<div class="col-7 text-start d-inline-block ms-2 my-3 fw-bold">Bilans:</div>
+					<div class="col-4 text-end d-inline-block me-2 my-3 fw-bold"> <span class="text-primary pe-1">{{ balance }}
+							zł</div>
+
+				</section>
+
+			</div>
+
+		</article>
+
+
+		<div class="row">
+		<div class="col-xl">
+
+		 <div class="col-10 mx-auto">
+			<article>
+
+				<div class="mb-3 border border-success rounded p-2">
+
+					<header class="h4 text-center mb-3" style="color: #009200;">
+						Przychody
+					</header>
+
+					<section class="pb-2">
+						<div id="chartContainer" style="height: 250px; width: 100%;"></div>
+					</section>
+
+				</div>
+
+			</article>
+
+		</div>
+
+		<div class="col-10 mx-auto">
+			<article>
+				<div class="mb-3 border border-warning rounded p-2" id="chartx" style="height: 603px;">
+
+					<header class="h4 text-center mb-3" style="color: 	#FFA500;">
+						Wydatki
+					</header>
+					<br>
+					<section>
+						<div id="chartContainer2" style="height: 250px; width: 100%;"></div>
+
+					</section>
+
+				</div>
+			</article>
+		</div>
+	</div>
+	</div>
+
+</main>
+
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
 
 {% else %}
+<article>
 
-<!-- Introduction -->
-<section id="introduction">
+	<div class="container p-3 pb-5 mb-5" style="font-family: 'Montserrat', sans-serif;">
+		<div class="col-md-8 col-lg-7 col-xxl-7  m-2 m-md-auto mb-3 border rounded p-2 shadow-lg">
 
-  <h2 class="introduction-text">Kto ma kontrolę nad pieniędzmi, ten ma władzę nad światem</h2>
-  <h3 class="introduction-text-helpful"><i class="fa-solid fa-person"></i> Henry Kissinger</h3>
+			<header class="h2 text-start mx-auto my-3 text-center"
+				style="letter-spacing: 2px; font-family: 'Montserrat', sans-serif;  color: #F28705;">
+				Witaj w aplikacji Budżet osobisty.com!
+			</header>
 
-</section>
+			<div class="mt-5" style="text-align: center;">
+				<img src="image/save-money.png" alt="savemoney-img" width="25%">
+			</div>
 
-<!-- Title -->
-<section id="title">
-  <div class="row">
-    <div class="col-lg-6">
-      <h1 class="title-text">Zacznij zarządzać swoim budżetem już dziś! Dołącz do grona zadowolonych użytkowników!
-      </h1>
-    </div>
 
-    <div class="col-lg-6">
-      <img class="title-image" src="images/save-money.png" alt="savemoney-img">
-    </div>
-  </div>
-</section>
+			<div class="h4 mt-5 m-auto text-center" style="line-height: 1.5;">
+				Zacznij zarządzać swoim budżetem już dziś!<br>
+				Dołącz do grona zadowolonych użytkowników!<br>
+				Dzięki temu będziesz miał kontrolę nad finansami.<br>
+			</div>
 
-<a class="btn btn-outline-primary btn-lg signButton" href="/signup/new" role="button">
-  <i class="fa-solid fa-user-plus"></i> Rejestracja</a>
-<a class="btn btn-outline-success btn-lg signButton" href="/login" role="button">
-  <i class="fa-solid fa-right-to-bracket"></i> Logowanie</a>
+
+
+			<div class="h5 mt-5 text-end">"Kto ma kontrolę nad pieniędzmi, ten ma władzę nad światem"</div>
+			<p class="h6 text-end"><i class="fa-solid fa-person"></i> Henry Kissinger</p>
+
+
+
+			<div class="btn-group btn-group-lg start-50 translate-middle mt-5" role="group">
+				<button type="button" class="btn btn-outline-success me-2 btn-lg"
+					onclick="location.href='/signup/new';">Zarejestruj się</button><br>
+
+				<button type="button" class="btn btn-success ms-2 btn-lg" onclick="location.href='/login';">Zaloguj się</button>
+			</div>
+
+		</div>
+	</div>
+
+</article>
+
 {% endif %}
-
 
 {% endblock %}

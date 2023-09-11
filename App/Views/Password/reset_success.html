@@ -4,15 +4,26 @@
 
 {% block body %}
 
-<!-- Image -->
-<div class="like">
-    <div style="text-align: center"><img class="password-image" src="/images/like.png" alt="like-img">
-    </div>
-  </div>
+<div class="container p-3 pb-5 mb-5" style="font-family: 'Montserrat', sans-serif;">
 
-<div class="text-center mt-5">
-    <h1 class="text-container">Hasło zostało pomyślnie zmienione</h1>
-    <p>Możesz teraz się <a href="/login">zalogować</a>.</p>
+    <div class="col-md-8 col-lg-7 col-xl-6 col-xxl-7 m-2 m-md-auto border rounded p-2 shadow-lg">
+
+        <header class="h3 text-center m-3" style="letter-spacing: 2px; color: #6FB1BF;">
+            Resetowanie hasła
+        </header>
+
+        <!-- Image -->
+        <div class="mt-5 mb-5" style="text-align: center;">
+            <img src="/image/like.png" alt="like-img" width="20%">
+        </div>
+
+        <p class="text-center" style="line-height: 2;"> Hasło zostało pomyślnie zmienione. <br>
+            Możesz się teraz <a href="/login">zalogować</a> do swojego konta.</p>
+
+    </div>
+
 </div>
+
+
 
 {% endblock %}

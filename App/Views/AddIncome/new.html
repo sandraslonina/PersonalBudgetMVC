@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block title %}Dodaj przychód{% endblock %}
+
+{% block footer %}
+
+<script>
+
+    $.validator.addMethod('validTextField',
+        function (value, element, param) {
+
+            if (value != '') {
+
+                if (value.match(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ0-9+_ -.,]*$/)) {
+                    if (value.length < 50)
+                        return true;
+                    else
+                        return false;
+                }
+
+            }
+            else return true;
+
+            return false;
+        },
+        'To pole może składać się tylko z liter, cyfr, plusów, minusów oraz spacji i mniejsze niż 50 znaków'
+    );
+
+    $(document).ready(function () {
+
+        $('#formAddIncome').validate({
+            errorPlacement: function (error, element) {
+                error.appendTo(element.parent().next());
+            },
+
+            rules: {
+                amount: {
+                    required: true,
+                    min: 0,
+                    max: 10000000,
+                },
+                date: {
+                    required: true,
+                },
+                category: {
+                    required: true,
+                    validTextField: true,
+
+                },
+                comment: {
+                    validTextField: true,
+
+                }
+            },
+            messages: {
+                amount: {
+                    required: 'Wprowadź kwotę',
+                    min: 'Kwota nie może być ujemna',
+                    max: 'Kwota nie może być większa niż milion złotych',
+
+                },
+                date: {
+                    required: 'Wprowadź datę',
+                },
+                category: {
+                    required: 'Kategoria jest wymagana',
+                }
+
+
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+
+        });
+
+    });
+
+</script>
+
+
+
+{% endblock %}
+
+{% block body %}
+
+<main>
+
+    <article>
+
+
+        <div class="container p-3 pb-5 mb-5" style="font-family: 'Montserrat', sans-serif;">
+
+
+            <div class="col-15 border border-success rounded p-3 ">
+
+
+                <header class="h3 text-center mb-3" style="letter-spacing: 2px; color: #009200;">
+                    Dodaj przychód
+                </header>
+
+
+                <!-- Image -->
+                <div class="mt-4 mb-4" style="text-align: center;">
+                    <img src="/image/profits.png" alt="profits-img" width="15%">
+                </div>
+
+
+
+                <form method="post" action="/addIncome/create" id="formAddIncome">
+
+
+                    <div class="p-3 mb-0">
+
+                        <div class="row">
+
+                            <div class="col-12 offset-lg-2 col-lg-8">
+
+                                <div class="input-group p-3 m-auto">
+                                    <span class="input-group-text col-5 inputx"><i class="fa-solid fa-dollar-sign"></i>&nbsp; Kwota</span>
+                                    <input type="number" id="inputAmount" value="{{ income.amount }}"
+                                        class="form-control" placeholder="Podaj kwotę w zł" aria-label="Amount"
+                                        aria-describedby="amount" name="amount" min="0" required>
+                                </div>
+                                <div class="text-danger ms-2 fs-6 position-absolute"></div>
+
+                            </div>
+
+                            <div class="col-12 offset-lg-2 col-lg-8">
+                                <div class="input-group p-3 m-auto">
+                                    <span class="input-group-text col-5 inputx"><i class="fa-regular fa-calendar-days"></i>&nbsp; Data</span>
+                                    <input type="date" id="inputDate" class="form-control" aria-label="Date"
+                                        aria-describedby="date" name="date" min="1990-01-01" value="{{ date }}"
+                                        max="2035-12-31" required>
+                                </div>
+                                <div class="text-danger ms-2 fs-6 position-absolute"></div>
+                            </div>
+
+
+                            <div class="col-12 offset-lg-2 col-lg-8">
+
+                                <div class="input-group p-3 m-auto">
+                                    <span class="input-group-text inputx col-5"><i class="fa-solid fa-layer-group"></i>&nbsp; Kategoria</span>
+                                    <select class="form-select" name="category" id="inputCategory" aria-label="category"
+                                        value="{{ income.category }}" required>
+                                        <option value="cat0" selected disabled> </option>
+                                        {% for category in incomesCategory %}
+                                        <option value="{{ category.id }}">
+                                            {{ category.name }}
+                                        </option>
+                                        {% endfor %}
+
+                                    </select>
+
+                                </div>
+                                <div class="text-danger ms-2 fs-6 position-absolute"></div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-12 offset-lg-2 col-lg-8 mt-3">
+                            <div class="input-group p-3 m-auto">
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text inputx"><i class="fa-solid fa-comments"></i>&nbsp; Komentarz</span>
+                                    <input type="text" name="comment" id="inputComment" class="form-control"
+                                        placeholder="Dodaj komentarz" aria-label="Comment" aria-describedby="comment"
+                                        value="{{ income.comment }}">
+                                </div>
+                                <div class="text-danger ms-2 fs-6 position-absolute"></div>
+                            </div>
+                        </div>
+
+                        <div class="btn-group btn-group-lg start-50 translate-middle mt-5" role="group">
+                            <button type="button" class="btn btn-outline-success me-2"
+                                onclick="location.href='/';">Anuluj</button>
+                            <button type="submit" class="btn btn-success ms-2">Dodaj</button>
+                        </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-8 col-lg-7 col-xl-6 col-xxl-5  ps-5 pt-2 mt-5 m-md-auto text-danger fs-6 ">
+            {% if income.errors is not empty %}
+            <p>Errors:</p>
+            <ul>
+                {% for error in income.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+    </article>
+
+</main>
+
+{% endblock %}

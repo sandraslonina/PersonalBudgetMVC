@@ -4,15 +4,35 @@
 
 {% block body %}
 
-<!-- Image -->
-<div class="edit">
-  <div style="text-align: center"><img class="email-image" src="/images/email.png" alt="email-img">
-  </div>
-</div>
 
-<div class="text-center mt-5">
-  <h1 class="text-container">Link do zmiany hasła</h1>
-  <p>Sprawdź swój adres email</p>
-</div>
+    <a href="/signup/new" class="btn btn-lg btn-outline-secondary position-absolute top-0 end-0 me-3 mt-3">Rejestracja</a>
+
+
+
+    <article>
+    <div class="container p-3 pb-5 mb-5" style="font-family: 'Montserrat', sans-serif;">
+
+        <div class="col-md-8 col-lg-7 col-xl-6 col-xxl-7 m-2 m-md-auto border rounded p-2 shadow-lg">
+    
+            <header class="h3 text-center m-3" style="letter-spacing: 2px; color: #6FB1BF;">
+                Resetowanie hasła
+            </header>
+
+             <!-- Image -->
+             <div class="mt-5 mb-5" style="text-align: center;">
+                <img src="/image/email.png" alt="email-img" width="20%">
+            </div>
+
+    
+            <p class="text-center" style="line-height: 2;">
+                Link do zmiany hasła został wysłany! 
+                <br>
+                Sprawdź swój email.
+            </p>
+    
+        </div>
+    </div>
+</article>
+
 
 {% endblock %}

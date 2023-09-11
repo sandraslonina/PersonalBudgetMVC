@@ -1,5 +1,7 @@
 Aktywacja konta
 
-Dziękujemy za założenie konta. Kliknij poniższy link, aby aktywować swoje konto:
+Dziękujemy za rejestrację. Proszę kliknąć poniższy link, aby aktywować swoje konto:
 
 {{ url }}
+
+
